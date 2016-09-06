@@ -18,6 +18,8 @@ install.packages("devtools") # in case you don't have devtools already
 
 devtools::install_github("jinhyunju/picaplot") #installing picaplot
 
+library(picaplot)
+
 ```
 
 2) Loading an example dataset
