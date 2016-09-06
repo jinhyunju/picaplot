@@ -1,0 +1,48 @@
+## Component Visualization Report 
+
++ Generated with R package icreport
+
+```{r global_options, include=FALSE}
+# setting global options 
+figure.outpath <- paste(output.path,"/icreport_figures/",prefix,"/",sep="")
+opts_chunk$set(fig.path=figure.outpath,dev=file.ext, warning=FALSE, message=FALSE)
+options(warn=-1,width = 100)
+flower.palette <- c("#283545","#E09E12","#A72613","#95CDDC","#395717","#3A3B35","#D68931","#442243")
+```
+
+```{r, echo = FALSE, comment = ""}
+
+cat(toupper(attr(input_list, "method")), " Analysis Report \n")
+cat("Dataset = ", prefix,"\n")
+
+```
+
+
+
+### Individual Component Information
+
+```{r Individual_IC_Plots, echo = FALSE,comment="",warning=FALSE,fig.width = 10,fig.height = 6}
+
+for( i in 1:n_comps){
+    ###################### Plotting without Gene information ########################## 
+    # check if there is a specified order for the ICs (default is by explained variance)
+    p <- order(input_list$percent_var, decreasing = TRUE)[i]
+    
+    
+    cat("------------------------------------------------------------------------------","\n")
+
+    ic.info <- data.frame("plot_number" = i,
+                          "Variance_Percent" = input_list$percent_var[p])
+    print(ic.info)
+
+    cat("------------------------------------------------------------------------------","\n")
+    
+    plot_single_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
+    
+
+    
+}
+
+```
+
+
