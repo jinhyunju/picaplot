@@ -33,7 +33,7 @@ devtools::install_github("jinhyunju/picaplot") #installing picaplot
 - Please be aware that the script will install two packages ```GEOquery``` and ```biomaRt``` if you don't already have it on your machine. 
 
 ```r
-example.data.script <- system.file("templates/create_example_data.R", package="icreport")
+example.data.script <- system.file("templates/create_example_data.R", package="picaplot")
 
 source(example.data.script)
 ```
