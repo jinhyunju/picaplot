@@ -186,7 +186,6 @@ plot_single_component <- function(input_list = NULL,
 #'
 #' @param geneinfo.df dataframe that holds the position of the genes.
 #'
-#' @import gtools
 #' @export
 chr_axis_creator <- function(geneinfo.df){
     pheno_chr <- NULL # to get rid of R CMD check NOTES

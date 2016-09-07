@@ -4,7 +4,7 @@
 \title{Generating ICA or PCA summary reports.}
 \usage{
 reportgen(input_list = NULL, n_comps = NULL, prefix = NULL,
-  geneinfo_df = NULL, output.path = NULL, file.ext = "png")
+  geneinfo_df = NULL, output_path = NULL, file.ext = "png")
 }
 \arguments{
 \item{input_list}{ICA or PCA result list created by either \code{run_ica()} or \code{run_pca()}.}
@@ -19,7 +19,7 @@ Default is set to plot every component.}
 "pheno_chr" for chromosomes, "pheno_start" for starting position and "pheno_end" for
 ending positions.}
 
-\item{output.path}{Directory path for generating the output HTML file.
+\item{output_path}{Directory path for generating the output HTML file.
 default is set to current working directory.}
 
 \item{file.ext}{File extension to be used for saved plots.
