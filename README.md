@@ -61,14 +61,15 @@ source(example.data.script)
 - The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively.  
 
 ```r 
-
+# run PCA 
 pca_object <- run_pca(expr.data)
 
+# run ICA
 ica_object <- run_ica(expr.data)
 
 ```
 
-- This generates an PCAobject / ICAobject with the outputs saved in the format of a list.
+- This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
 
 - Explain outputs in detail.  
 
@@ -77,6 +78,8 @@ ica_object <- run_ica(expr.data)
 
 - As an optional step, you can check whether any covariates are associated with any of the components. 
 `covar_association_check()` can be applied to both PCA and ICAobjects.
+
+- In this example, we are going to test the associations between the covariats in `sample.info` and each PC and IC. 
 
 ```r 
 
@@ -96,6 +99,7 @@ ica_object <- covar_association_check(ica_object,
 - Individual components can be inspected by using the `plot_single_component()` function. 
 This will generate 3 plots showing the gene loading on the component of interest and the component coefficients.
 
+- You can specify which component to inspect by setting the component index in the option `comp_idx`.
 
 ```r
 
@@ -109,6 +113,10 @@ ica1_plot = plot_single_component(ica_object,
 
 - If you have information regarding the chromosome and position of each gene you can supply it to the function to color the gene loading plot by chromosome. 
 
+- This dataframe needs the following columns: `phenotype` which has an entry for all rownames of the `expr.data`, 
+`pheno_chr` showing which chromosome the corresponding gene is on, `pheno_start` for the starting base position of the given phenotype, 
+`pheno_end` for the end base position of the phenotype. 
+
 ```r
 
 pca1_color = plot_single_component(pca_object, 
@@ -121,10 +129,13 @@ ica1_color = plot_single_component(ica_object,
 
 ```
 
-
 4) Generate a Report for All Components
 
 - To create an HTML report showing all components with more detail use the `reportgen()` function.
+
+- You can control the number of components to be plotted by setting `n_comps`. The default order is set by the amount of variance each component explains and if `n_comps` is not specified it will plot every component.
+
+- If option `output_path` is not set, it will generate the report and plots in the current working directory.
 
 ```r
 reportgen(pca_object, n_comps = 10, prefix = "PCAreport")

@@ -10,7 +10,7 @@
 #' @param geneinfo_df Dataframe that contains positions of the genes. Column names should be
 #'        "pheno_chr" for chromosomes, "pheno_start" for starting position and "pheno_end" for
 #'        ending positions.
-#' @param output.path Directory path for generating the output HTML file.
+#' @param output_path Directory path for generating the output HTML file.
 #'        default is set to current working directory.
 #' @param file.ext File extension to be used for saved plots.
 #'        Default is set to png for html reports.
@@ -27,7 +27,7 @@ reportgen <- function(input_list = NULL,
                       n_comps = NULL,
                       prefix = NULL,
                       geneinfo_df = NULL,
-                      output.path = NULL, file.ext = "png"){
+                      output_path = NULL, file.ext = "png"){
 
     if(is.null(input_list)){
         stop("Please specify the input to generate a report. \n")
@@ -37,18 +37,25 @@ reportgen <- function(input_list = NULL,
         stop("Please specify the prefix of the output file \n")
     }
 
-    if(is.null(output.path)){
-        message("Output path is not specified, using current working directory \n")
-        output.path <- getwd()
+    if(is.null(output_path)){
+        message("<output_path> is not specified, using current working directory \n")
+        output_path <- getwd()
 
     }
+
+    if(is.null(n_comps)){
+        message("<n_comps> not specified, plotting all components.")
+        n_comps <- length(input_list$percent_var)
+
+    }
+
 
     phenotype <- NULL # avoid R CMD check NOTES
     method <- attr(input_list, 'method')
 
     markdown.file <- system.file("templates/PICA_Component_Visualization_Report.Rmd", package="picaplot")
 
-    outFile = paste(output.path,"/",prefix,"_",method,"_summary.html",sep="")
+    outFile = paste(output_path,"/",prefix,"_",method,"_summary.html",sep="")
 
     suppressMessages(rmarkdown::render(markdown.file,output_file = outFile,output_format = "html_document"))
 
