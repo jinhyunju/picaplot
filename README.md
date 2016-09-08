@@ -12,6 +12,15 @@ If you already know what you want to use the package for, follow this simple exa
 
 1) Installing the package through the function ```install_github``` from the package ```devtools```.
 
+- `picaplot` has a few dependencies and you need to install them manually before you install `picaplot`. Simply run the code below to install the dependencies.
+
+```r
+
+picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown")
+
+install.packages(picaplot_dependencies)
+
+``` 
 
 ```r
 install.packages("devtools") # in case you don't have devtools already
