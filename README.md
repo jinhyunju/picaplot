@@ -106,34 +106,37 @@ ica_object <- covar_association_check(ica_object,
 
 3) Plotting Individual Components
 
-- Individual components can be inspected by using the `plot_single_component()` function. 
+- Individual components can be inspected by using the `plot_component()` function. 
 This will generate 3 plots showing the gene loading on the component of interest and the component coefficients.
 
 - You can specify which component to inspect by setting the component index in the option `comp_idx`.
 
 ```r
 
-pca1_plot = plot_single_component(pca_object, 
+pca1_plot = plot_component(pca_object, 
                                   comp_idx = 1)
 
-ica1_plot = plot_single_component(ica_object,
+ica1_plot = plot_component(ica_object,
                                   comp_idx = 1)
 
 ```
 
 - If you have information regarding the chromosome and position of each gene you can supply it to the function to color the gene loading plot by chromosome. 
 
-- This dataframe needs the following columns: `phenotype` which has an entry for all rownames of the `expr.data`, 
+- This `geneinfo_df` dataframe needs the following columns: `phenotype` which has an entry for all rownames of the `expr.data`, 
 `pheno_chr` showing which chromosome the corresponding gene is on, `pheno_start` for the starting base position of the given phenotype, 
 `pheno_end` for the end base position of the phenotype. 
 
+- Note that for ideal results you want to have the `geneinfo_df` sorted by chromosome and position. 
+`plot_component` uses the order of `phenotype` given in the dataframe to generate the plot, so the user has control over how to plot it by changing the order of the `geneinfo_df` dataframe.  
+
 ```r
 
-pca1_color = plot_single_component(pca_object, 
+pca1_color = plot_component(pca_object, 
                                    comp_idx = 1, 
                                    geneinfo_df = probe.info)
 
-ica1_color = plot_single_component(ica_object, 
+ica1_color = plot_component(ica_object, 
                                    comp_idx = 1, 
                                    geneinfo_df = probe.info)
 

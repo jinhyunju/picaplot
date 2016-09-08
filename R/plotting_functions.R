@@ -1,5 +1,4 @@
 #' @import ggplot2
-#' @export
 plot_comp_chr <- function(input_list = NULL,
                           geneinfo_df = NULL,
                           comp_idx,
@@ -59,7 +58,6 @@ plot_comp_chr <- function(input_list = NULL,
 }
 
 #' @import ggplot2
-#' @export
 plot_comp_no_geneinfo <- function(input_list = NULL,
                                   comp_idx){
 
@@ -95,7 +93,6 @@ plot_comp_no_geneinfo <- function(input_list = NULL,
     return(p)
 }
 
-#' @export
 comp_coeff_df <- function(input_list = NULL,
                           comp_idx){
 
@@ -128,7 +125,7 @@ comp_coeff_df <- function(input_list = NULL,
 
 #' @import ggplot2
 #' @export
-plot_single_component <- function(input_list = NULL,
+plot_component <- function(input_list = NULL,
                                   comp_idx,
                                   geneinfo_df = NULL,
                                   plot_here = TRUE){
@@ -186,7 +183,6 @@ plot_single_component <- function(input_list = NULL,
 #'
 #' @param geneinfo.df dataframe that holds the position of the genes.
 #'
-#' @export
 chr_axis_creator <- function(geneinfo.df){
     pheno_chr <- NULL # to get rid of R CMD check NOTES
     chromosomes <- unique(geneinfo.df$pheno_chr)
@@ -223,7 +219,6 @@ chr_axis_creator <- function(geneinfo.df){
 #' @keywords keywords
 #'
 #'
-#' @export
 multiplot <- function(plotlist=NULL, layout=NULL, cols=1) {
 
     # Make a list from the ... arguments and plotlist

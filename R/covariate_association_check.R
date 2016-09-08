@@ -42,6 +42,14 @@ covar_association_check <- function(input_list = NULL,
         stop("Sample names do not match between <input_list> and <covars> : Check sample names in <covars> and <input_list>")
     }
 
+
+    n_unique <- apply(covars, 2, function (x) length(table(x, useNA = 'no')))
+    use_info <- n_unique > 1 & n_unique < nrow(covars)
+
+    warning(sum(!use_info), " columns excluded from <covars>, due to uniqueness issues.")
+
+    covars <- covars[, use.info]
+    
     message("- Checking associations between components and covariates \n")
     # Anova analysis for covariates vs ICA weights (A matrix)
     covar_pvals <- ic_covariate_association_test(comp_coeff_mx, covars)
@@ -81,8 +89,6 @@ covar_association_check <- function(input_list = NULL,
 #' @param info.input A dataframe that holds the measured covariates for each sample
 #' @return output A matrix holding the p-values for each indepenedent component and covariate pair.
 #' @keywords keywords
-#'
-#' @export
 #'
 ic_covariate_association_test <- function(input.A, info.input){
 
