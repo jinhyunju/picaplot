@@ -16,14 +16,15 @@ If you already know what you want to use the package for, follow this simple exa
 
 ```r
 
-picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown")
+picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown", "devtools")
 
 install.packages(picaplot_dependencies)
 
 ``` 
 
+- To install `picaplot` from github:
+
 ```r
-install.packages("devtools") # in case you don't have devtools already
 
 devtools::install_github("jinhyunju/picaplot") #installing picaplot
 
