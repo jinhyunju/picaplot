@@ -46,10 +46,10 @@ covar_association_check <- function(input_list = NULL,
     n_unique <- apply(covars, 2, function (x) length(table(x, useNA = 'no')))
     use_info <- n_unique > 1 & n_unique < nrow(covars)
 
-    warning(sum(!use_info), " columns excluded from <covars>, due to uniqueness issues.")
+    message(sum(!use_info), " columns excluded from <covars>, due to uniqueness issues.")
 
-    covars <- covars[, use.info]
-    
+    covars <- covars[, use_info]
+
     message("- Checking associations between components and covariates \n")
     # Anova analysis for covariates vs ICA weights (A matrix)
     covar_pvals <- ic_covariate_association_test(comp_coeff_mx, covars)
@@ -73,7 +73,7 @@ covar_association_check <- function(input_list = NULL,
     input_list$covar_pvals <- covar_pvals
     input_list$comp_cov <- comp_cov
     input_list$covars <- covars
-
+    input_list$covar_threshold <- bon_sig
     attr(input_list, 'covar_cor') <- "yes"
 
     return(input_list)

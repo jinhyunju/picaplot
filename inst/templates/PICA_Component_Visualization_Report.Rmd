@@ -17,6 +17,16 @@ cat("Dataset = ", prefix,"\n")
 
 ```
 
+### Summary Information
+
+```{r Summary, echo = FALSE, comment="", warnings = FALSE, fig.width = 12, fig.height = 4}
+
+# need to work on summary 
+
+summary_plots = plot_summary(input_list)
+
+```
+
 
 
 ### Individual Component Information
@@ -31,13 +41,17 @@ for( i in 1:n_comps){
     
     cat("------------------------------------------------------------------------------","\n")
 
-    ic.info <- data.frame("plot_number" = i,
-                          "Variance_Percent" = input_list$percent_var[p])
-    print(ic.info)
+    cat(paste0("plot#",i),"-", paste0("IC",p),"\n")
+    cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
+
+    if(attr(input_list, "covar_cor") == "yes"){
+        cat("-- Component covariate correlations\n")
+        print(input_list$comp_cov[[p]])
+    }
 
     cat("------------------------------------------------------------------------------","\n")
     
-    plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
+    single_plot = plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
     
 
     

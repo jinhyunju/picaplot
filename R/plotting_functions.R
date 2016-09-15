@@ -123,53 +123,6 @@ comp_coeff_df <- function(input_list = NULL,
 
 }
 
-#' @import ggplot2
-#' @export
-plot_component <- function(input_list = NULL,
-                                  comp_idx,
-                                  geneinfo_df = NULL,
-                                  plot_here = TRUE){
-
-
-    component_plots <- list()
-
-
-    if(!is.null(geneinfo_df)){
-        component_plots[[1]] <- plot_comp_chr(input_list, comp_idx = comp_idx, geneinfo_df = geneinfo_df)
-    } else {
-        component_plots[[1]] <- plot_comp_no_geneinfo(input_list, comp_idx = comp_idx)
-    }
-
-    coeff_plot_df <- comp_coeff_df(input_list, comp_idx)
-
-    if(is.null(coeff_plot_df$covar)){
-        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff)) +
-            geom_point() + theme_bw()+ theme(legend.position = "none")
-
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff)) +
-            geom_histogram() + coord_flip() + theme_bw()
-
-    } else if (!is.null(coeff_plot_df$covar)){
-
-        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = covar)) +
-            geom_point() + theme_bw()+ theme(legend.position = "none")
-
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar)) +
-            geom_histogram() + coord_flip() + theme_bw()
-
-    }
-
-    if(plot_here){
-
-        suppressMessages(multiplot(plotlist = component_plots,
-                                   layout = matrix(c(1,1,1,1,2,2,3,3),
-                                                   ncol =4 , byrow = TRUE)))
-
-    }
-    return(component_plots)
-
-
-}
 
 #' Function that generates the x axis ticks for chromosome positions
 #'
@@ -252,4 +205,156 @@ multiplot <- function(plotlist=NULL, layout=NULL, cols=1) {
                                                   layout.pos.col = matchidx$col))
         }
     }
+}
+
+#' @import ggplot2
+#' @export
+plot_component <- function(input_list = NULL,
+                           comp_idx,
+                           geneinfo_df = NULL,
+                           plot_here = TRUE){
+
+
+    component_plots <- list()
+
+
+    if(!is.null(geneinfo_df)){
+        component_plots[[1]] <- plot_comp_chr(input_list, comp_idx = comp_idx, geneinfo_df = geneinfo_df)
+    } else {
+        component_plots[[1]] <- plot_comp_no_geneinfo(input_list, comp_idx = comp_idx)
+    }
+
+    coeff_plot_df <- comp_coeff_df(input_list, comp_idx)
+
+    if(is.null(coeff_plot_df$covar)){
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff)) +
+            geom_point() + theme_bw()+ theme(legend.position = "none")
+
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff)) +
+            geom_histogram() + coord_flip() + theme_bw()
+
+    } else if (!is.null(coeff_plot_df$covar)){
+
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = covar)) +
+            geom_point() + theme_bw()+ theme(legend.position = "none")
+
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar)) +
+            geom_histogram() + coord_flip() + theme_bw()
+
+    }
+
+    if(plot_here){
+
+        suppressMessages(multiplot(plotlist = component_plots,
+                                   layout = matrix(c(1,1,1,1,2,2,3,3),
+                                                   ncol =4 , byrow = TRUE)))
+
+    }
+    return(component_plots)
+
+
+}
+
+#' @import ggplot2
+#' @export
+plot_summary <- function(input_list = NULL,
+                         plot_here = TRUE){
+
+
+    summary_df <- data.frame("var_percent" = input_list$percent_var,
+                             "idx" = 1:length(input_list$percent_var))
+    summary_plots <- list()
+
+    # scree of variance explained by each PC
+    summary_plots[[1]] <- ggplot(summary_df,
+                                 aes(x = idx, y = var_percent)) +
+                                 geom_bar(stat = 'identity') +
+                                 labs(title ="Variance by Component") +
+                                 ylab("Variance (%) Explained") + theme_bw()
+
+    if(class(input_list) == "PCAobject"){
+
+        summary_plots[[1]] <- summary_plots[[1]] + xlab("PC index")
+        proj_df <- data.frame("comp1" = input_list$x[,1],
+                              "comp2" = input_list$x[,2])
+        summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2)) +
+                                geom_point() + theme_bw()
+        if(attr(input_list, "covar_cor") == "yes"){
+
+            if(length(input_list$comp_cov[[1]]) > 0){
+                associated_covars <- input_list$comp_cov[[1]]
+                max_assoc <- colnames(associated_covars)[which.min(associated_covars)]
+                proj_df$covar <- input_list$covars[,max_assoc]
+                summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2, col = covar)) +
+                    geom_point() + theme_bw()
+            } else if ( (length(input_list$comp_cov[[1]]) == 0) & (length(input_list$comp_cov[[2]]) > 0) ){
+                associated_covars <- input_list$comp_cov[[2]]
+                max_assoc <- colnames(associated_covars)[which.min(associated_covars)]
+                proj_df$covar <- input_list$covars[,max_assoc]
+                summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2, col = covar)) +
+                    geom_point() + theme_bw()
+            }
+        }
+        summary_plots[[2]] <- summary_plots[[2]] + xlab("PC1") + ylab("PC2")
+
+    } else if (class(input_list) == "ICAobject"){
+        p1 <- order(input_list$percent_var, decreasing = TRUE)[1]
+        p2 <- order(input_list$percent_var, decreasing = TRUE)[2]
+        summary_plots[[1]] <- summary_plots[[1]] + xlab("IC index")
+        proj_df <- data.frame("comp1" = input_list$A[p1,],
+                              "comp2" = input_list$A[p2,])
+
+        summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2)) +
+            geom_point() + theme_bw()
+        if(attr(input_list, "covar_cor") == "yes"){
+
+            if(length(input_list$comp_cov[[p1]]) > 0){
+                associated_covars <- input_list$comp_cov[[p1]]
+                max_assoc <- colnames(associated_covars)[which.min(associated_covars)]
+                proj_df$covar <- input_list$covars[,max_assoc]
+                summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2, col = covar)) +
+                    geom_point() + theme_bw()
+            } else if ( (length(input_list$comp_cov[[p1]]) == 0) & (length(input_list$comp_cov[[p2]]) > 0) ){
+                associated_covars <- input_list$comp_cov[[p2]]
+                max_assoc <- colnames(associated_covars)[which.min(associated_covars)]
+                proj_df$covar <- input_list$covars[,max_assoc]
+                summary_plots[[2]] <- ggplot(proj_df, aes(x = comp1, y = comp2, col = covar)) +
+                    geom_point() + theme_bw()
+            }
+
+        }
+        summary_plots[[2]] <- summary_plots[[2]] + xlab(paste0("IC",p1)) + ylab(paste0("IC",p2))
+
+    }
+
+
+
+    if(plot_here){
+
+        suppressMessages(multiplot(plotlist = summary_plots,
+                                   layout = matrix(c(1,1,2,2),
+                                                   ncol =4 , byrow = TRUE)))
+
+    }
+    return(summary_plots)
+
+
+}
+
+#' @export
+#' @import ggplot2
+plot_covariate_corr_summary <- function(input_list){
+
+
+    plot_df <- data.frame("covars" = colnames(input_list$covar_pvals),
+                          "count" = apply(input_list$covar_pvals, 2,
+                                          function(x) sum(x < input_list$covar_threshold)))
+
+    covar_summary <- ggplot(plot_df, aes(x = covars, y = count)) +
+                            geom_bar(stat = 'identity') +
+                            theme_bw() + xlab("covariate") + ylab("Associated Components")
+
+    print(covar_summary)
+
+    return(covar_summary)
 }

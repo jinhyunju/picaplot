@@ -75,7 +75,7 @@ run_ica <- function(pheno_mx = NULL,
             stop("1 component explains more than", var_cutoff, "% of the variance,
                  check your data or set <k_est> to a number bigger than 1 \n")
         }
-        }
+    }
 
     ica_list <- list()
     ica_result <- list()
