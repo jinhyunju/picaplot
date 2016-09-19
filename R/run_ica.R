@@ -212,7 +212,6 @@ run_ica <- function(pheno_mx = NULL,
     # peaks are defined as gene contributions that are larger than 2 standard deviations
 
     ica_result$peaks <- apply(ica_result$S, 2, peak_detection)
-    ica_result$peak_mx <- apply(ica_result$S, 2, function(x) 1*(abs(x) > 2*sd(x)))
 
     message("- Calculating variance explained by each IC \n")
     # get the total variance by the sums of squares of the scaled pheno_mx

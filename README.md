@@ -81,8 +81,43 @@ ica_object <- run_ica(expr.data)
 
 - This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
 
-- Explain outputs in detail.  
+1-1) `run_pca()` outputs
 
+The following entries will be generated in the output list `pca_object` after running the example above. 
+
+  * `rotation` : Matrix of principal component gene weights where each column represents a single component. (standard `prcomp()` output)
+  
+  * `x` : Matrix of the projections of the original data onto principal componets. Each column holds a projection. (standard `prcomp()` output)
+  
+  * `sdev` : The standard deviation (square root of the eigen values) of each principal components. (standard `prcomp()` output)
+  
+  * `percent_var` : The percent variance each principal component is explaining. Calculated based on `sdev`
+  
+  * `peaks` : Indicating which gene has a gene weight larger than 2 standard deviations of its component gene weights. 
+  
+  * `center` : The mean values for each gene used to center the data. (standard `prcomp()` output)
+  
+  * `scale` : TRUE or FALSE value indicating whether the data was scaled. (standard `prcomp()` output)
+  
+  * Three attributes are set within the list object. "PCAobject" for `class`, "pca" for `method` and "no" for `covar_cor`.
+
+1-2) `run_ica()` outputs
+
+The following entries will be generated in the output list `ica_object` after running the example above. 
+
+  * `A` : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard `fastICA()` output)
+  
+  * `S` : Matrix of gene weights for each independent component. Each column holds a single component. (standard `fastICA()` output)
+
+  * `percent_var` : The percent variance each independent component is explaining.
+  
+  * `peaks` : Indicating which gene has a gene weight larger than 2 standard deviations of its component gene weights. 
+  
+  * `order` : The order of independent components based on the variance that they explain. 
+  
+  * `X`, `K`, `W` : Standard outputs of `fastICA()`. `X` is the pre-processed data matrix, `K` is the pre-whitening matrix projecting the data onto the first n principal components, and `W` is the estimated unmixing matrix. 
+  
+  * Three attributes are set within the list object. "ICAobject" for `class`, "ica" for `method` and "no" for `covar_cor`.
 
 2) Testing Associations Between Covariates and Components
 
@@ -101,8 +136,15 @@ ica_object <- covar_association_check(ica_object,
 
 ```
 
-- This will add this and this and this to the object.
+- This will add the following entries to the list.
+
+  * `covar_pvals` : A matrix of p-values with the dimension of number of components x tested covariates. 
   
+  * `comp_cov` : A list with length equal to the number of components that shows in each entry which covariates have a p-value lower than the set threshold. 
+  
+  * `covars` : A copy of the supplied `sample.info` for plotting. 
+  
+  * `covar_threshold` : The threshold for calling a covariate association significant. The default is set to 0.05 divided by the number of tests (= `length(covar_pvals)`).
 
 3) Plotting Individual Components
 
@@ -114,10 +156,10 @@ This will generate 3 plots showing the gene loading on the component of interest
 ```r
 
 pca1_plot = plot_component(pca_object, 
-                                  comp_idx = 1)
+                           comp_idx = 1)
 
 ica1_plot = plot_component(ica_object,
-                                  comp_idx = 1)
+                           comp_idx = 1)
 
 ```
 
@@ -133,12 +175,12 @@ ica1_plot = plot_component(ica_object,
 ```r
 
 pca1_color = plot_component(pca_object, 
-                                   comp_idx = 1, 
-                                   geneinfo_df = probe.info)
+                            comp_idx = 1, 
+                            geneinfo_df = probe.info)
 
 ica1_color = plot_component(ica_object, 
-                                   comp_idx = 1, 
-                                   geneinfo_df = probe.info)
+                            comp_idx = 1, 
+                            geneinfo_df = probe.info)
 
 ```
 
@@ -146,11 +188,12 @@ ica1_color = plot_component(ica_object,
 
 - To create an HTML report showing all components with more detail use the `reportgen()` function.
 
-- You can control the number of components to be plotted by setting `n_comps`. The default order is set by the amount of variance each component explains and if `n_comps` is not specified it will plot every component.
+- You can control the number of components to be plotted by setting `n_comps`, if `n_comps` is not specified it will plot every component. The default order is set by the amount of variance each component explains
 
 - If option `output_path` is not set, it will generate the report and plots in the current working directory.
 
 ```r
+
 reportgen(pca_object, n_comps = 10, prefix = "PCAreport")
 
 reportgen(ica_object, n_comps = 10, prefix = "ICAreport")
