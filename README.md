@@ -10,7 +10,7 @@ The report generating feature of this package requires a program called ```pando
 
 If you already know what you want to use the package for, follow this simple example to get started!
 
-1) Installing the package through the function ```install_github``` from the package ```devtools```.
+#### 1) Installing the package through the function ```install_github``` from the package ```devtools```.
 
 - `picaplot` has a few dependencies and you need to install them manually before you install `picaplot`. Simply run the code below to install the dependencies.
 
@@ -32,7 +32,7 @@ library(picaplot)
 
 ```
 
-2) Loading an example dataset
+#### 2) Loading an example dataset
 
 - Here we are going to use a public dataset that is available on the Gene Expression Omnibus (GEO).
 
@@ -66,9 +66,9 @@ source(example.data.script)
 
 ### 2. Core Functionality of the package
 
-1) Running PCA / ICA 
+#### 1) Running PCA / ICA 
 
-- The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively.  
+The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively.  
 
 ```r 
 # run PCA 
@@ -79,7 +79,7 @@ ica_object <- run_ica(expr.data)
 
 ```
 
-- This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
+This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
 
 1-1) `run_pca()` outputs
 
