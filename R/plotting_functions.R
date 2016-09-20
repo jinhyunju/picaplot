@@ -12,21 +12,19 @@ plot_comp_chr <- function(input_list = NULL,
     if(is.null(geneinfo_df)){
         stop("Gene position information is missing.")
     }
-
+    p_var <- input_list$percent_ver[comp_idx]
     if(class(input_list) == "ICAobject"){
         geneinfo_df$idx <- 1:nrow(geneinfo_df)
         geneinfo_df$loading <- input_list$S[as.character(geneinfo_df$phenotype),comp_idx]
         geneinfo_df$peaks <- 1 * ( as.character(geneinfo_df$phenotype) %in% names(input_list$peaks[[comp_idx]]) )
-
-        plot.title <- paste("IC",comp_idx,"_",sum(geneinfo_df$peaks),"peaks", sep = " ")
+        plot.title <- paste("IC",comp_idx,"_",p_var,"(%) Variance_",sum(geneinfo_df$peaks),"peaks", sep = " ")
 
 
     } else if (class(input_list) == "PCAobject"){
         geneinfo_df$idx <- 1:nrow(geneinfo_df)
         geneinfo_df$loading <- input_list$rotation[as.character(geneinfo_df$phenotype),comp_idx]
         geneinfo_df$peaks <- 1 * ( as.character(geneinfo_df$phenotype) %in% names(input_list$peaks[[comp_idx]]) )
-
-        plot.title <- paste("PC",comp_idx,"_",sum(geneinfo_df$peaks),"peaks", sep = " ")
+        plot.title <- paste("PC",comp_idx,"_",p_var,"(%) Variance_",sum(geneinfo_df$peaks),"peaks", sep = " ")
 
     }
 
@@ -61,14 +59,14 @@ plot_comp_chr <- function(input_list = NULL,
 plot_comp_no_geneinfo <- function(input_list = NULL,
                                   comp_idx){
 
-
+    p_var <- input_list$percent_ver[comp_idx]
     if(class(input_list) == "ICAobject"){
 
         comp_df <- data.frame("idx" = 1:nrow(input_list$S),
                               "loading" = input_list$S[,comp_idx],
                               "peaks" = 1 * ( as.character(rownames(input_list$S)) %in% names(input_list$peaks[[comp_idx]]) ))
 
-        plot.title <- paste("IC",comp_idx,"_",sum(comp_df$peaks),"peaks", sep = " ")
+        plot.title <- paste("IC",comp_idx,"_",p_var,"(%) Variance_",sum(comp_df$peaks),"peaks", sep = " ")
 
     } else if (class(input_list) == "PCAobject"){
 
@@ -76,7 +74,7 @@ plot_comp_no_geneinfo <- function(input_list = NULL,
                               "loading" = input_list$rotation[,comp_idx],
                               "peaks" = 1 * ( as.character(rownames(input_list$rotation)) %in% names(input_list$peaks[[comp_idx]]) ))
 
-        plot.title <- paste("PC",comp_idx,"_",sum(comp_df$peaks),"peaks", sep = " ")
+        plot.title <- paste("PC",comp_idx,"_",p_var,"(%) Variance_",sum(comp_df$peaks),"peaks", sep = " ")
 
 
 
