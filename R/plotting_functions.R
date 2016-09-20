@@ -12,7 +12,7 @@ plot_comp_chr <- function(input_list = NULL,
     if(is.null(geneinfo_df)){
         stop("Gene position information is missing.")
     }
-    p_var <- input_list$percent_ver[comp_idx]
+    p_var <- round(input_list$percent_var[comp_idx],5)
     if(class(input_list) == "ICAobject"){
         geneinfo_df$idx <- 1:nrow(geneinfo_df)
         geneinfo_df$loading <- input_list$S[as.character(geneinfo_df$phenotype),comp_idx]
@@ -59,7 +59,7 @@ plot_comp_chr <- function(input_list = NULL,
 plot_comp_no_geneinfo <- function(input_list = NULL,
                                   comp_idx){
 
-    p_var <- input_list$percent_ver[comp_idx]
+    p_var <- round(input_list$percent_var[comp_idx],5)
     if(class(input_list) == "ICAobject"){
 
         comp_df <- data.frame("idx" = 1:nrow(input_list$S),
