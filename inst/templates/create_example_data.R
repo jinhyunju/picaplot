@@ -15,12 +15,22 @@ if(!require(GEOquery)){
   biocLite("GEOquery") # install the GEOquery package
   library("GEOquery")
 }
+
+if(!require(Biobase)){
+    message("Package Biobase is not installed")
+    message("Installing Biobase from bioconductor")
+    source("http://bioconductor.org/biocLite.R")
+    biocLite("Biobase") # install the GEOquery package
+    library("Biobase")
+}
+options('download.file.method'='curl')
+
 gse60028 <- GEOquery::getGEO(GEO = "GSE60028")  # get the GEO data
 # (this may take a few minutes depending on your network connection)
+
 geo.eset <- gse60028$GSE60028_series_matrix.txt.gz # extract the expression set
 
-
-expr.data <- exprs(geo.eset)       # extract the expression matrix
+expr_data <- exprs(geo.eset)       # extract the expression matrix
 covariate.data <- pData(geo.eset)   # extract sample information
 feature.df <- fData(geo.eset)       # extract probe information
 feature.df <- feature.df[,c("ID", "ENTREZ_GENE_ID")]
@@ -44,27 +54,27 @@ biomart.output <- getBM(attributes=c('entrezgene','hgnc_symbol',
 biomart.output <- subset(biomart.output, chromosome_name %in% c(1:22, "X","Y"))
 
 # match probe information with position information
-probe.info <- merge(feature.df, biomart.output, by.x = "ENTREZ_GENE_ID", by.y = "entrezgene")
+probe_info <- merge(feature.df, biomart.output, by.x = "ENTREZ_GENE_ID", by.y = "entrezgene")
 
 
 # set the column names
-colnames(probe.info)[5:7] <- c("pheno_chr","pheno_start", "pheno_end")
-colnames(probe.info)[2] <- c("phenotype")
+colnames(probe_info)[5:7] <- c("pheno_chr","pheno_start", "pheno_end")
+colnames(probe_info)[2] <- c("phenotype")
 
-probe.info <- probe.info[,c("phenotype", "pheno_chr", "pheno_start", "pheno_end")]
-probe.info$pheno_chr <- factor(probe.info$pheno_chr, levels = gtools::mixedsort(unique(probe.info$pheno_chr)))
-probe.info <- probe.info[order(probe.info$pheno_chr, decreasing = FALSE),]
+probe_info <- probe_info[,c("phenotype", "pheno_chr", "pheno_start", "pheno_end")]
+probe_info$pheno_chr <- factor(probe_info$pheno_chr, levels = gtools::mixedsort(unique(probe_info$pheno_chr)))
+probe_info <- probe_info[order(probe_info$pheno_chr, decreasing = FALSE),]
 # filter expression data down to probes with information
-expr.data <- expr.data[as.character(probe.info$phenotype),]
+expr_data <- expr_data[as.character(probe_info$phenotype),]
 
 # parsing the original covariate.data dataframe into a more natural form
-sample.info <- data.frame(apply(covariate.data, 2,
+sample_info <- data.frame(apply(covariate.data, 2,
                                  function(x) sapply(strsplit(x, ": "),
                                                     function(a) a[2]))) #extract the data
-colnames(sample.info) <- apply(covariate.data, 2, function(x) strsplit(x, ":")[[1]][1])
-sample.info$level_of_reaction <- as.character(sample.info$level_of_reaction)
-sample.info$level_of_reaction[which(is.na(sample.info$level_of_reaction))] <- "0"  # correct a column which had missing data
-sample.info$level_of_reaction <- factor(sample.info$level_of_reaction)  # correct a column which had missing data
+colnames(sample_info) <- apply(covariate.data, 2, function(x) strsplit(x, ":")[[1]][1])
+sample_info$level_of_reaction <- as.character(sample_info$level_of_reaction)
+sample_info$level_of_reaction[which(is.na(sample_info$level_of_reaction))] <- "0"  # correct a column which had missing data
+sample_info$level_of_reaction <- factor(sample_info$level_of_reaction)  # correct a column which had missing data
 
 # remove redundant and temporary objects
 rm(gse60028, biomart.output, covariate.data, mart.ensembl, geo.eset, feature.df)
