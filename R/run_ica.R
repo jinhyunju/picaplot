@@ -236,6 +236,7 @@ run_ica <- function(pheno_mx = NULL,
     class(ica_result) <- "ICAobject"
     attr(ica_result, 'method') <- "ica"
     attr(ica_result, 'covar_cor') <- "no"
+    attr(ica_result, 'clustering') <- "no"
 
     message("------ Process completed without any interuptions -------  \n")
 

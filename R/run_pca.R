@@ -52,6 +52,7 @@ run_pca <- function(pheno_mx = NULL,
     class(pca_result) <- "PCAobject"
     attr(pca_result, 'method') <- "pca"
     attr(pca_result, 'covar_cor') <- "no"
+    attr(pca_result, 'clustering') <- "no"
 
     return(pca_result)
 }

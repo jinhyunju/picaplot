@@ -117,6 +117,12 @@ comp_coeff_df <- function(input_list = NULL,
 
     }
 
+    if(attr(input_list, "clustering") == "yes"){
+        if(input_list$n_clust[comp_idx] > 1) {
+            comp_df$mclust <- as.factor(input_list$mclust_result[[comp_idx]]$classification)
+        }
+    }
+
     return(comp_df)
 
 }
@@ -224,7 +230,7 @@ plot_component <- function(input_list = NULL,
 
     coeff_plot_df <- comp_coeff_df(input_list, comp_idx)
 
-    if(is.null(coeff_plot_df$covar)){
+    if(is.null(coeff_plot_df$covar) & is.null(coeff_plot_df$mclust)){
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff)) +
             geom_point() + theme_bw()+ theme(legend.position = "none")
 
@@ -237,6 +243,13 @@ plot_component <- function(input_list = NULL,
             geom_point() + theme_bw()+ theme(legend.position = "none")
 
         component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar)) +
+            geom_histogram() + coord_flip() + theme_bw()
+
+    } else if (is.null(coeff_plot_df$covar) & !is.null(coeff_plot_df$mclust)){
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = mclust)) +
+            geom_point() + theme_bw()+ theme(legend.position = "none")
+
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust)) +
             geom_histogram() + coord_flip() + theme_bw()
 
     }

@@ -8,3 +8,4 @@ Maintainer: Jin Hyun Ju <jinhyun.ju@gmail.com>
 Description: More about what it does (maybe more than one line)
 License: GPL-2
 LazyData: TRUE
+RoxygenNote: 5.0.1
