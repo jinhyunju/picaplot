@@ -153,9 +153,9 @@ To identify any sample clusters that are not associated with measured covariates
 
 ```r
 
-ica_object <- sample_cluster_check(ica_object)
+ica_object <- detect_clusters(ica_object)
 
-pca_object <- sample_cluster_check(pca_object)
+pca_object <- detect_clusters(pca_object)
 
 ```
 

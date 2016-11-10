@@ -7,7 +7,7 @@
 #'
 #' @import mclust
 #' @export
-sample_cluster_check <- function(input_list = NULL){
+detect_clusters <- function(input_list = NULL){
 
     if(is.null(input_list)){
         stop("Input is missing, please specify an ICA or PCA object")
