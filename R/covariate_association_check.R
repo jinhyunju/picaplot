@@ -48,7 +48,7 @@ covar_association_check <- function(input_list = NULL,
 
     message(sum(!use_info), " columns excluded from <covars>, due to uniqueness issues.")
 
-    covars <- covars[, use_info]
+    covars <- covars[, use_info, drop = FALSE]
 
     message("- Checking associations between components and covariates \n")
     # Anova analysis for covariates vs ICA weights (A matrix)
