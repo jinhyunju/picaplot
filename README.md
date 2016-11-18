@@ -204,3 +204,16 @@ reportgen(ica_object,  prefix = "ICAreport", geneinfo_df = probe_info)
 
 
 ```
+
+#### 6) Generate a Covariate Matrix for a Linear Model
+
+After testing for covariate associations and clustering the user can generate a covariate matrix of IC coefficients or PC projections using the `get_covariate_mx` function. By default it will return a matrix that contains IC coefficients or PC projections of components associated with known covariates or those with multiple clusters detected. The user can specify the index of the components to customize the matrix in the option `idx`.
+
+
+```r
+
+ic_covar_mx = get_covariate_mx(ica_object)
+
+pc_covar_mx = get_covariate_mx(pca_object)
+
+```

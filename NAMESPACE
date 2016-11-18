@@ -3,6 +3,7 @@
 export(covar_association_check)
 export(detect_clusters)
 export(fastICA_gene_expr)
+export(get_covariate_mx)
 export(ica_R_par)
 export(plot_component)
 export(plot_covariate_corr_summary)

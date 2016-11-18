@@ -31,7 +31,7 @@ summary_plots = plot_summary(input_list)
 
 ### Individual Component Information
 
-```{r Individual_IC_Plots, echo = FALSE, comment="", warning=FALSE, fig.width = 10, fig.height = 6}
+```{r comp_plots, echo = FALSE, comment="", warning=FALSE, fig.width = 10, fig.height = 6}
 
 for( i in 1:n_comps){
     ###################### Plotting without Gene information ########################## 
@@ -41,7 +41,7 @@ for( i in 1:n_comps){
     
     cat("------------------------------------------------------------------------------","\n")
 
-    cat(paste0("plot#",i),"-", paste0("IC",p),"\n")
+    cat(paste0("plot#",i),"-", paste0("Comp",p),"\n")
     cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
 
     if(attr(input_list, "covar_cor") == "yes"){
