@@ -42,9 +42,9 @@ covar_association_check <- function(input_list = NULL,
         stop("Sample names do not match between <input_list> and <covars> : Check sample names in <covars> and <input_list>")
     }
 
-
+    # filter factors with only 1 level
     n_unique <- apply(covars, 2, function (x) length(table(x, useNA = 'no')))
-    use_info <- n_unique > 1 & n_unique < nrow(covars)
+    use_info <- n_unique > 1
 
     message(sum(!use_info), " columns excluded from <covars>, due to uniqueness issues.")
 
@@ -104,9 +104,8 @@ ic_covariate_association_test <- function(input.A, info.input){
     for( i in 1: dim(input.A)[1]){
         for (j in 1:length(covar.names)){
             analysis.df <- data.frame("IC"=input.A[i,],"Covar" = covar.df[,j])
-            anova.fit <- aov(IC ~ Covar, data=analysis.df)
-            model.fstat <- summary.lm(anova.fit)$fstatistic
-            p.val <- pf(model.fstat[1],model.fstat[2],model.fstat[3], lower.tail = FALSE, log.p = FALSE)
+            anova.fit <- summary(aov(IC ~ Covar, data=analysis.df))
+            p.val <- anova.fit[[1]]$`Pr(>F)`[1]
             pval.mx[i,j] <- p.val
         }
     }
