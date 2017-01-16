@@ -240,7 +240,7 @@ plot_component <- function(input_list = NULL,
 
     } else if (!is.null(coeff_plot_df$covar)){
 
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = covar)) +
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = covar)) +
             geom_point() + theme_bw()
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar, col = covar)) +
@@ -248,7 +248,7 @@ plot_component <- function(input_list = NULL,
             coord_flip() + theme_bw() + scale_y_reverse() + theme(legend.position = "none")
 
     } else if (is.null(coeff_plot_df$covar) & !is.null(coeff_plot_df$mclust)){
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = mclust)) +
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = mclust)) +
             geom_point() + theme_bw()+ theme(legend.position = "none") + scale_colour_brewer(palette = "Dark2")
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust, col = mclust)) +
