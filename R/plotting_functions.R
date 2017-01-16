@@ -245,7 +245,7 @@ plot_component <- function(input_list = NULL,
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar, col = covar)) +
             geom_histogram(alpha=0.7, position="identity") +
-            coord_flip() + theme_bw() + scale_x_reverse() + theme(legend.position = "none")
+            coord_flip() + theme_bw() + scale_y_reverse() + theme(legend.position = "none")
 
     } else if (is.null(coeff_plot_df$covar) & !is.null(coeff_plot_df$mclust)){
         component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = mclust)) +
@@ -253,7 +253,7 @@ plot_component <- function(input_list = NULL,
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust, col = mclust)) +
             geom_histogram(alpha=0.7, position="identity") +
-            coord_flip() + theme_bw() + scale_fill_brewer(palette = "Dark2") + scale_x_reverse() + theme(legend.position = "none")
+            coord_flip() + theme_bw() + scale_fill_brewer(palette = "Dark2") + scale_y_reverse() + theme(legend.position = "none")
     }
 
     if(plot_here){
