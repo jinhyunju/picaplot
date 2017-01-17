@@ -2,10 +2,10 @@
 plot_comp_chr <- function(input_list = NULL,
                           geneinfo_df = NULL,
                           comp_idx,
-                          x.axis = NULL){
+                          x.axis = NULL,
+                          covar_name = NULL){
 
-
-    if(is.null(x.axis)){
+     if(is.null(x.axis)){
         x.axis <- chr_axis_creator(geneinfo_df)
     }
 
@@ -13,18 +13,28 @@ plot_comp_chr <- function(input_list = NULL,
         stop("Gene position information is missing.")
     }
     p_var <- round(input_list$percent_var[comp_idx],5)
+    covar_name <- colnames(input_list$comp_cov[[comp_idx]])[which.min(input_list$comp_cov[[comp_idx]])]
+
     if(class(input_list) == "ICAobject"){
         geneinfo_df$idx <- 1:nrow(geneinfo_df)
         geneinfo_df$loading <- input_list$S[as.character(geneinfo_df$phenotype),comp_idx]
         geneinfo_df$peaks <- 1 * ( as.character(geneinfo_df$phenotype) %in% names(input_list$peaks[[comp_idx]]) )
-        plot.title <- paste("IC",comp_idx,"_",p_var,"(%) Variance_",sum(geneinfo_df$peaks),"peaks", sep = " ")
+        if(!is.null(covar_name)){
+            plot.title <- paste0("IC",comp_idx,", ",p_var," (%) var, ",sum(geneinfo_df$peaks)," peaks, ", "covariate = ", covar_name)
+        } else {
+            plot.title <- paste0("IC",comp_idx,", ",p_var," (%) var, ",sum(geneinfo_df$peaks)," peaks")
+        }
 
 
     } else if (class(input_list) == "PCAobject"){
         geneinfo_df$idx <- 1:nrow(geneinfo_df)
         geneinfo_df$loading <- input_list$rotation[as.character(geneinfo_df$phenotype),comp_idx]
         geneinfo_df$peaks <- 1 * ( as.character(geneinfo_df$phenotype) %in% names(input_list$peaks[[comp_idx]]) )
-        plot.title <- paste("PC",comp_idx,"_",p_var,"(%) Variance_",sum(geneinfo_df$peaks),"peaks", sep = " ")
+        if(!is.null(covar_name)){
+            plot.title <- paste0("PC",comp_idx,", ",p_var," (%) var, ",sum(geneinfo_df$peaks)," peaks, ", "covariate = ", covar_name)
+        } else {
+            plot.title <- paste0("PC",comp_idx,", ",p_var," (%) var, ",sum(geneinfo_df$peaks)," peaks")
+        }
 
     }
 
@@ -60,13 +70,20 @@ plot_comp_no_geneinfo <- function(input_list = NULL,
                                   comp_idx){
 
     p_var <- round(input_list$percent_var[comp_idx],5)
+    covar_name <- colnames(input_list$comp_cov[[comp_idx]])[which.min(input_list$comp_cov[[comp_idx]])]
+
     if(class(input_list) == "ICAobject"){
 
         comp_df <- data.frame("idx" = 1:nrow(input_list$S),
                               "loading" = input_list$S[,comp_idx],
                               "peaks" = 1 * ( as.character(rownames(input_list$S)) %in% names(input_list$peaks[[comp_idx]]) ))
 
-        plot.title <- paste("IC",comp_idx,"_",p_var,"(%) Variance_",sum(comp_df$peaks),"peaks", sep = " ")
+        if(!is.null(covar_name)){
+            plot.title <- paste0("IC",comp_idx,", ",p_var," (%) var, ",sum(comp_df$peaks)," peaks, ", "covariate = ", covar_name)
+        } else {
+            plot.title <- paste0("IC",comp_idx,", ",p_var," (%) var, ",sum(comp_df$peaks)," peaks")
+        }
+
 
     } else if (class(input_list) == "PCAobject"){
 
@@ -74,9 +91,12 @@ plot_comp_no_geneinfo <- function(input_list = NULL,
                               "loading" = input_list$rotation[,comp_idx],
                               "peaks" = 1 * ( as.character(rownames(input_list$rotation)) %in% names(input_list$peaks[[comp_idx]]) ))
 
-        plot.title <- paste("PC",comp_idx,"_",p_var,"(%) Variance_",sum(comp_df$peaks),"peaks", sep = " ")
 
-
+        if(!is.null(covar_name)){
+            plot.title <- paste0("PC",comp_idx,", ",p_var," (%) var, ",sum(comp_df$peaks)," peaks, ", "covariate = ", covar_name)
+        } else {
+            plot.title <- paste0("PC",comp_idx,", ",p_var," (%) var, ",sum(comp_df$peaks)," peaks")
+        }
 
     }
 
@@ -239,17 +259,34 @@ plot_component <- function(input_list = NULL,
             coord_flip() + theme_bw()
 
     } else if (!is.null(coeff_plot_df$covar)){
+        covar_name <- colnames(input_list$comp_cov[[comp_idx]])[which.min(input_list$comp_cov[[comp_idx]])]
 
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = covar)) +
-            geom_point() + theme_bw()
+        if(class(coeff_plot_df$covar) == "numeric"){
+
+            component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = covar)) +
+                geom_point() + theme_bw() + xlab(covar_name) + scale_color_brewer(palette = "Spectral")
+        } else {
+
+            component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = covar)) +
+                geom_point() + theme_bw() + xlab("Sample idx")
+
+            if(class(coeff_plot_df$covar) == "factor"){
+                if(length(levels(class(coeff_plot_df$covar)) > 8)){
+
+                    component_plots[[3]] <- component_plots[[3]] + theme(legend.position = "none")
+
+                }
+
+            }
+        }
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar, col = covar)) +
             geom_histogram(alpha=0.7, position="identity") +
             coord_flip() + theme_bw() + scale_y_reverse() + theme(legend.position = "none")
 
     } else if (is.null(coeff_plot_df$covar) & !is.null(coeff_plot_df$mclust)){
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = mclust)) +
-            geom_point() + theme_bw()+ theme(legend.position = "none") + scale_colour_brewer(palette = "Dark2")
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = mclust)) +
+            geom_boxplot() + theme_bw() + theme(legend.position = "none") + scale_colour_brewer(palette = "Dark2")
 
         component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust, col = mclust)) +
             geom_histogram(alpha=0.7, position="identity") +

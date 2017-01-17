@@ -9,3 +9,6 @@ Description: picaplot provides a simple workflow to apply ICA to gene expression
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 5.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
