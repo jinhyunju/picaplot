@@ -264,7 +264,7 @@ plot_component <- function(input_list = NULL,
         if(class(coeff_plot_df$covar) == "numeric"){
 
             component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = covar, y = coeff, col = covar)) +
-                geom_point() + theme_bw() + xlab(covar_name) + scale_color_brewer(palette = "Spectral")
+                geom_point() + theme_bw() + xlab(covar_name) + scale_colour_gradient(low = "blue", high = "red")
         } else {
 
             component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = covar)) +
