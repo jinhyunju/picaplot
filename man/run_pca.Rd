@@ -12,10 +12,24 @@ run_pca(pheno_mx = NULL, scale_pheno = FALSE)
 \item{scale_pheno}{Logical value specifying the scaling of row of the pheno_mx. Default is set to FALSE.}
 }
 \value{
-List with the following entries
+The following entries will be generated in the output list \code{pca_object} after running the example above. \cr
+\code{rotation} : Matrix of principal component gene weights where each column represents a single component. (standard \code{prcomp()} output)\cr
+\code{x} : Matrix of the projections of the original data onto principal componets. Each column holds a projection. (standard \code{prcomp()} output)\cr
+\code{sdev}: The standard deviation (square root of the eigen values) of each principal components. (standard \code{prcomp()} output)\cr
+\code{percent_var} : The percent variance each principal component is explaining. Calculated based on \code{sdev}.\cr
+\code{peaks} : Indicating which gene has a gene weight larger than 2 standard deviations of its component gene weights. \cr
+\code{center} : The mean values for each gene used to center the data. (standard \code{prcomp()} output)\cr
+\code{scale} : TRUE or FALSE value indicating whether the data was scaled. (standard \code{prcomp()} output)\cr
+Three attributes are set within the list object. "PCAobject" for \code{class}, "pca" for \code{method} and "no" for \code{covar_cor}.\cr
 }
 \description{
 Performing PCA on a dataset and create a list object with results.
 }
-\keyword{keywords}
+\examples{
+
+data(expr_data)
+
+pca_object <- run_pca(expr_data)
+
+}
 

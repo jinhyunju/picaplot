@@ -31,10 +31,24 @@ This will divide all phenotypes by their standard deviation.}
 If set to "peaks" only gene weights that are greater than 1 sd are used to calculate similarity.}
 }
 \value{
-List with the following entries.
+The following entries will be generated in the output list \code{ica_object} after running the example above. \cr
+\code{A} : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard \code{fastICA()} output) \cr
+\code{S} : Matrix of gene weights for each independent component. Each column holds a single component. (standard \code{fastICA()} output)\cr
+\code{percent_var} : The percent variance each independent component is explaining.\cr
+\code{peaks} : Indicating which gene has a gene weight larger than 2 standard deviations of its component gene weights.\cr
+\code{order} : The order of independent components based on the variance that they explain.\cr
+\code{X, K, W} : Standard outputs of \code{fastICA()}. \code{X} is the pre-processed data matrix, \code{K} is the pre-whitening matrix projecting the data onto the first n principal components, and `W` is the estimated unmixing matrix.\cr
+Three attributes are set within the list object. "ICAobject" for \code{class}, "ica" for \code{method} and "no" for \code{covar_cor}.
 }
 \description{
 Performing ICA on a dataset and create a list object with results.
 }
-\keyword{keywords}
+\examples{
+
+data(expr_data)
+
+ica_object <- run_ica(expr_data)
+
+
+}
 

@@ -28,10 +28,25 @@ Default is set to png for html reports.
 Note that if you use pdf plots for html files they will not show up in your report.}
 }
 \value{
-output HTML report.
+The output of this function is a HTML report containing component-wise plots and information.
 }
 \description{
 Generating a HTML report from a ICA or PCA list object.
+}
+\examples{
+
+\dontrun{
+data(expr_data)
+
+ica_object <- run_ica(expr_data)
+ica_object <- covar_association_check(ica_object, sample_info)
+ica_object <- detect_clusters(ica_object)
+
+reportgen(ica_object, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
+
+
+}
+
 }
 \keyword{keywords}
 

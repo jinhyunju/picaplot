@@ -32,8 +32,8 @@ summary_plots = plot_summary(input_list)
 ### Individual Component Information
 
 ```{r comp_plots, echo = FALSE, comment="", warning=FALSE, fig.width = 10, fig.height = 6}
-
-for( i in 1:n_comps){
+if(length(n_comps) == 1){
+    for( i in 1:n_comps){
     ###################### Plotting without Gene information ########################## 
     # check if there is a specified order for the ICs (default is by explained variance)
     p <- order(input_list$percent_var, decreasing = TRUE)[i]
@@ -43,19 +43,51 @@ for( i in 1:n_comps){
 
     cat(paste0("plot#",i),"-", paste0("Comp",p),"\n")
     cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
-
+    cat("Top 10 Genes Weights\n")
+    print(ica_object$peaks[[p]][1:10])
     if(attr(input_list, "covar_cor") == "yes"){
         cat("-- Component covariate correlations\n")
         print(input_list$comp_cov[[p]])
     }
-
     cat("------------------------------------------------------------------------------","\n")
     
     single_plot = plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
     
 
     
+    }
+    
+    
+} else if (length(n_comps) > 1){
+   i <- 1 
+   for( p in n_comps){
+        ###################### Plotting without Gene information ########################## 
+        # check if there is a specified order for the ICs (default is by explained variance)
+        #p <- order(input_list$percent_var, decreasing = TRUE)[i]
+        
+        
+        cat("------------------------------------------------------------------------------","\n")
+        
+        cat(paste0("plot#",i),"-", paste0("Comp",p),"\n")
+        cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
+        cat("Top 10 Genes Weights\n")
+        print(ica_object$peaks[[p]][1:10])
+        if(attr(input_list, "covar_cor") == "yes"){
+            cat("-- Component covariate correlations\n")
+            print(input_list$comp_cov[[p]])
+        }
+        
+        cat("------------------------------------------------------------------------------","\n")
+        
+        single_plot = plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
+        
+        i <- i + 1
+
+    } 
+    
+    
 }
+
 
 ```
 

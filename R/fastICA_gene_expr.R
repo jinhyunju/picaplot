@@ -1,21 +1,19 @@
-#' ICA analysis based on the package fastICA
-#'
-#' Minor tweak to fastICA to make it faster
-#'
-#' @param X Phenotype matrix with diemnsions g x N
-#' @param n.comp Number of components to be estimated or method to estimate it.
-#' @param fun Function to be used in ICA estimation
-#' @param alpha alpha for ICA, should be in range [1,2].
-#' @param scale_pheno Logical value specifying the scaling of rows of X.
-#' @param maxit Maximum iterations
-#' @param tol Threshold for convergence
-#' @param verbose If TRUE details of the estimation process are shown.
-#' @param w.init Initial value for W, if left unspecified random numbers will be used.
-#' @return List with the following entries.
-#' @keywords keywords
-#'
-#' @export
-#'
+# ICA analysis based on the package fastICA
+#
+# Minor tweak to fastICA to make it faster
+#
+# @param X Phenotype matrix with diemnsions g x N
+# @param n.comp Number of components to be estimated or method to estimate it.
+# @param fun Function to be used in ICA estimation
+# @param alpha alpha for ICA, should be in range [1,2].
+# @param scale_pheno Logical value specifying the scaling of rows of X.
+# @param maxit Maximum iterations
+# @param tol Threshold for convergence
+# @param verbose If TRUE details of the estimation process are shown.
+# @param w.init Initial value for W, if left unspecified random numbers will be used.
+#
+# @export
+#
 fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
                              scale_pheno = FALSE, maxit = 200, tol = 1e-04, verbose = TRUE, w.init=NULL) {
     dd <- dim(X)       # dimensions g x N
@@ -71,23 +69,21 @@ fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 }
 
 
-#' ICA parameter estimation function
-#'
-#' Adopted from fastICA package
-#'
-#' @param X Phenotype matrix with diemnsions g x N
-#' @param n.comp Number of components to be estimated or method to estimate it.
-#' @param fun Function to be used in ICA estimation
-#' @param alpha alpha for ICA, should be in range [1,2].
-#' @param maxit Maximum iterations
-#' @param tol Threshold for convergence
-#' @param verbose If TRUE details of the estimation process are shown.
-#' @param w.init Initial value for W, if left unspecified random numbers will be used.
-#' @return List with the following entries.
-#' @keywords keywords
-#'
-#' @export
-#'
+# ICA parameter estimation function
+#
+# Adopted from fastICA package
+#
+# @param X Phenotype matrix with diemnsions g x N
+# @param n.comp Number of components to be estimated or method to estimate it.
+# @param fun Function to be used in ICA estimation
+# @param alpha alpha for ICA, should be in range [1,2].
+# @param maxit Maximum iterations
+# @param tol Threshold for convergence
+# @param verbose If TRUE details of the estimation process are shown.
+# @param w.init Initial value for W, if left unspecified random numbers will be used.
+#
+# @export
+#
 ica_R_par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
     Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
     n <- nrow(X)

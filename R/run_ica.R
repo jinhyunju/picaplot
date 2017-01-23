@@ -14,8 +14,21 @@
 #' @param max_iter Maximum iterations for estimating k for each run. Default value is set to 10.
 #' @param similarity_measure How to measure the similarity between ICs.
 #' If set to "peaks" only gene weights that are greater than 1 sd are used to calculate similarity.
-#' @return List with the following entries.
-#' @keywords keywords
+#' @return The following entries will be generated in the output list \code{ica_object} after running the example above. \cr
+#' \code{A} : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard \code{fastICA()} output) \cr
+#' \code{S} : Matrix of gene weights for each independent component. Each column holds a single component. (standard \code{fastICA()} output)\cr
+#' \code{percent_var} : The percent variance each independent component is explaining.\cr
+#' \code{peaks} : Indicating which gene has a gene weight larger than 2 standard deviations of its component gene weights.\cr
+#' \code{order} : The order of independent components based on the variance that they explain.\cr
+#' \code{X, K, W} : Standard outputs of \code{fastICA()}. \code{X} is the pre-processed data matrix, \code{K} is the pre-whitening matrix projecting the data onto the first n principal components, and `W` is the estimated unmixing matrix.\cr
+#' Three attributes are set within the list object. "ICAobject" for \code{class}, "ica" for \code{method} and "no" for \code{covar_cor}.
+#'
+#' @examples
+#'
+#' data(expr_data)
+#'
+#' ica_object <- run_ica(expr_data)
+#'
 #'
 #' @export
 run_ica <- function(pheno_mx = NULL,
@@ -244,17 +257,16 @@ run_ica <- function(pheno_mx = NULL,
 }
 
 
-#' Labeling peaks for each independent component
-#'
-#' The function takes in the A matrix from the ica.result object
-#' with a dataframe of measured covariates to test the association
-#' between them.
-#'
-#' @param ica.input.s A single column of the S matrix with dimensions 1 x g  \code{s}
-#' @return A vector that contains the gene weights of the signficant peaks for a single independent component sorted
-#' in the decreasing order of absolute magnitude.
-#' @keywords keywords
-#'
+# Labeling peaks for each independent component
+#
+# The function takes in the A matrix from the ica.result object
+# with a dataframe of measured covariates to test the association
+# between them.
+#
+# @param ica.input.s A single column of the S matrix with dimensions 1 x g  \code{s}
+# @return A vector that contains the gene weights of the signficant peaks for a single independent component sorted
+# in the decreasing order of absolute magnitude.
+#
 peak_detection <- function(ica.input.s){
     peaks.idx <- which(abs(ica.input.s) > (2 * sd(ica.input.s))) # get the peak indexes
     peaks <- ica.input.s[names(sort(abs(ica.input.s[peaks.idx]), decreasing = T))]
@@ -262,15 +274,15 @@ peak_detection <- function(ica.input.s){
     return(peaks)
 }
 
-#' Calculating the variation explained by each component
-#'
-#' The function takes in a single row of the ICA result A matrix and a
-#' single column of the ICA result S matrix and calculates the sums of squares.
-#'
-#' @param s A single column of the S matrix with dimensions 1 x g  \code{s}
-#' @param a A single row of the A matrix with dimensions N x 1 \code{a}
-#' @return A single number of how much variantion is explained by a single IC.
-#'
+# Calculating the variation explained by each component
+#
+# The function takes in a single row of the ICA result A matrix and a
+# single column of the ICA result S matrix and calculates the sums of squares.
+#
+# @param s A single column of the S matrix with dimensions 1 x g  \code{s}
+# @param a A single row of the A matrix with dimensions N x 1 \code{a}
+# @return A single number of how much variantion is explained by a single IC.
+#
 IC_variance_calc <- function(s, a){
     var.IC <- sum(  (as.matrix(s) %*% t(as.matrix(a) ) )^2)
     return(var.IC)
