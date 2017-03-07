@@ -244,12 +244,12 @@ plot_component <- function(input_list = NULL,
     coeff_plot_df <- comp_coeff_df(input_list, comp_idx)
 
     if(is.null(coeff_plot_df$covar) & is.null(coeff_plot_df$mclust)){
-        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff)) +
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff)) +
             geom_point() + theme_bw()+ theme(legend.position = "none")
 
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = coeff)) +
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff)) +
             geom_histogram(alpha=0.7, position="identity") +
-            coord_flip() + theme_bw()
+            coord_flip() + theme_bw() + scale_y_reverse()
 
     } else if (!is.null(coeff_plot_df$covar)){
         covar_name <- colnames(input_list$comp_cov[[comp_idx]])[which.min(input_list$comp_cov[[comp_idx]])]
@@ -266,15 +266,15 @@ plot_component <- function(input_list = NULL,
 
         }
 
-        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar, col = covar)) +
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = covar)) +
             geom_histogram(alpha=0.7, position="identity") +
             coord_flip() + theme_bw() + scale_y_reverse() + theme(legend.position = "none")
 
     } else if (is.null(coeff_plot_df$covar) & !is.null(coeff_plot_df$mclust)){
-        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = sample_idx, y = coeff, col = mclust)) +
-            geom_boxplot() + theme_bw() + theme(legend.position = "none") + scale_colour_brewer(palette = "Dark2")
+        component_plots[[3]] <- ggplot(coeff_plot_df, aes(x = mclust, y = coeff, col = mclust)) +
+            geom_jitter(width = 0.3) + theme_bw() + theme(legend.position = "none") + scale_colour_brewer(palette = "Dark2") + xlab("estimated clusters")
 
-        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust, col = mclust)) +
+        component_plots[[2]] <- ggplot(coeff_plot_df, aes(x = coeff, fill = mclust)) +
             geom_histogram(alpha=0.7, position="identity") +
             coord_flip() + theme_bw() + scale_fill_brewer(palette = "Dark2") + scale_y_reverse() + theme(legend.position = "none")
     }

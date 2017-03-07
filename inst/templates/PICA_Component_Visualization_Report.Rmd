@@ -44,7 +44,7 @@ if(length(n_comps) == 1){
     cat(paste0("plot#",i),"-", paste0("Comp",p),"\n")
     cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
     cat("Top 10 Genes Weights\n")
-    print(ica_object$peaks[[p]][1:10])
+    print(input_list$peaks[[p]][1:10])
     if(attr(input_list, "covar_cor") == "yes"){
         cat("-- Component covariate correlations\n")
         print(input_list$comp_cov[[p]])
@@ -71,7 +71,7 @@ if(length(n_comps) == 1){
         cat(paste0("plot#",i),"-", paste0("Comp",p),"\n")
         cat("Variance Percent = ", input_list$percent_var[p], "\n\n")
         cat("Top 10 Genes Weights\n")
-        print(ica_object$peaks[[p]][1:10])
+        print(input_list$peaks[[p]][1:10])
         if(attr(input_list, "covar_cor") == "yes"){
             cat("-- Component covariate correlations\n")
             print(input_list$comp_cov[[p]])

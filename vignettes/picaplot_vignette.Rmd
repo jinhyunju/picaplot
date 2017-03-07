@@ -183,11 +183,11 @@ Individual components can be inspected by using the `plot_component()` function.
 
 ```{r plot_indv_comp, fig.align='center', fig.width= 7, fig.height = 3}
 
-pca1_plot = plot_component(pca_object, 
-                           comp_idx = 1)
+pc1_plot = plot_component(pca_object, 
+                          comp_idx = 1)
 
-ica1_plot = plot_component(ica_object,
-                           comp_idx = 1)
+ic1_plot = plot_component(ica_object,
+                          comp_idx = 1)
 
 ```
 
@@ -200,13 +200,13 @@ If you have information regarding the chromosome and position of each gene you c
 
 ```{r plot_comp_with_gene_info, fig.width= 7, fig.height = 3}
 
-pca1_color = plot_component(pca_object, 
-                            comp_idx = 1, 
-                            geneinfo_df = probe_info)
+pc1_color = plot_component(pca_object, 
+                           comp_idx = 1, 
+                           geneinfo_df = probe_info)
 
-ica1_color = plot_component(ica_object, 
-                            comp_idx = 1, 
-                            geneinfo_df = probe_info)
+ic1_color = plot_component(ica_object, 
+                           comp_idx = 1, 
+                           geneinfo_df = probe_info)
 
 ```
 
