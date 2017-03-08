@@ -3,8 +3,8 @@
 \docType{data}
 \name{probe_info}
 \alias{probe_info}
-\title{Positional information for 26419 probes used in \code{expr_data}}
-\format{A matrix with 26419 rows and 4 columns:
+\title{Positional information for 2642 probes used in \code{expr_data}}
+\format{A matrix with 2642 rows and 4 columns:
 \describe{
   \item{phenotype}{The probe id used in \code{expr_data}}
   \item{pheno_chr}{Chromosome of measured probe.}
@@ -24,4 +24,3 @@ Molecular profiling of contact dermatitis skin identifies allergen-dependent dif
 J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
 }
 \keyword{datasets}
-

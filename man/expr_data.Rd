@@ -3,8 +3,8 @@
 \docType{data}
 \name{expr_data}
 \alias{expr_data}
-\title{Gene expression measurements of 26419 genes in 47 samples.}
-\format{A matrix with 26419 rows and 47 columns:
+\title{A subset of gene expression measurements with 2642 genes and 47 samples.}
+\format{A matrix with 2642 rows and 47 columns:
 \describe{
   \item{rows}{Each row is a gene expression measurement}
   \item{cols}{Each column is a single sample}
@@ -20,10 +20,11 @@ A dataset containing the gene expression measurements obtained from the
 Gene Expression Omnibus (GEO) accession number GSE60028.
 }
 \details{
+The subset was created by randomly sampling 10% of the original 26419 genes.
+
 The original dataset is described in the following paper:
 Dhingra N, Shemer A, Correa da Rosa J, Rozenblit M et al.
 Molecular profiling of contact dermatitis skin identifies allergen-dependent differences in immune response.
 J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
 }
 \keyword{datasets}
-

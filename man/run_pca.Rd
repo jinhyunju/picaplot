@@ -32,4 +32,3 @@ data(expr_data)
 pca_object <- run_pca(expr_data)
 
 }
-

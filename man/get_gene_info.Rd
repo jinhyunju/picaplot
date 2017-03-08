@@ -12,7 +12,8 @@ get_gene_info(input_list = NULL, comp_idx = NULL, geneinfo_df = NULL,
 
 \item{comp_idx}{Component number to be plotted.}
 
-\item{geneinfo_df}{Dataframe containing information about the gene positions. This is used to generate the gene weight plot}
+\item{geneinfo_df}{Dataframe containing information about the gene positions.
+This is used to generate the gene weight plot.}
 
 \item{n_peaks}{Number of top contributors to show. Default is set to 10.}
 }
@@ -20,7 +21,8 @@ get_gene_info(input_list = NULL, comp_idx = NULL, geneinfo_df = NULL,
 dataframe with positional information of genes
 }
 \description{
-Generate a dataframe with gene information for top contributors for a given IC or PC
+Generate a dataframe with gene information for
+top contributors for a given IC or PC
 }
 \examples{
 data(expr_data, probe_info)
@@ -32,4 +34,3 @@ get_gene_info(input_list = ica_object,
               n_peaks = 10)
 
 }
-

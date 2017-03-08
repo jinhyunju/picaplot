@@ -13,9 +13,11 @@
 # @param w.init Initial value for W, if left unspecified random numbers will be used.
 #
 # @export
-#
+#' @import MASS
+#' @import stats
 fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
-                             scale_pheno = FALSE, maxit = 200, tol = 1e-04, verbose = TRUE, w.init=NULL) {
+                            scale_pheno = FALSE, maxit = 200, tol = 1e-04,
+                            verbose = TRUE, w.init=NULL) {
     dd <- dim(X)       # dimensions g x N
     d <- dd[dd != 1L]
     if (length(d) != 2L)
@@ -36,13 +38,13 @@ fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
         n.comp <- min(n, p)
     }
     if(is.null(w.init))
-        w.init <- matrix(rnorm(n.comp^2),n.comp,n.comp)
+        w.init <- matrix(stats::rnorm(n.comp^2),n.comp,n.comp)
     else {
         if(!is.matrix(w.init) || length(w.init) != (n.comp^2))
             stop("w.init is not a matrix or is the wrong size")
     }
 
-    pca.X <- prcomp(X)         # X is still g x N
+    pca.X <- stats::prcomp(X)         # X is still g x N
 
     K.comp <- pca.X$rotation[,c(1:n.comp)]        # k principal components
     Diag <- diag(c(1/pca.X$sdev[c(1:n.comp)]))    # k standard deviation diagonal matrix
@@ -83,7 +85,8 @@ fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 # @param w.init Initial value for W, if left unspecified random numbers will be used.
 #
 # @export
-#
+#' @import MASS
+#' @import stats
 ica_R_par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
     Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
     n <- nrow(X)

@@ -27,4 +27,3 @@ get_covariate_mx(ica_object)
 
 }
 \keyword{keywords}
-

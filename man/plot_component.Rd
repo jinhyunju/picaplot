@@ -12,16 +12,20 @@ plot_component(input_list = NULL, comp_idx, geneinfo_df = NULL,
 
 \item{comp_idx}{Component number to be plotted.}
 
-\item{geneinfo_df}{Dataframe containing information about the gene positions. This is used to generate the gene weight plot}
+\item{geneinfo_df}{Dataframe containing information about the gene positions.
+This is used to generate the gene weight plot}
 
-\item{plot_here}{If set to TRUE it will generate the plots in the current session, and if set to FALSE it will return a list of plots only
-and not generate plots in the current session.}
+\item{plot_here}{If set to TRUE it will generate the plots in the
+current session, and if set to FALSE it will
+return a list of plots only and not generate plots
+in the current session.}
 }
 \value{
 List of plots
 }
 \description{
-Generate gene weight and coefficient plots for a single independent or principal component.
+Generate gene weight and coefficient plots for a single independent
+or principal component.
 }
 \examples{
 data(expr_data)
@@ -30,4 +34,3 @@ pca_object <- run_pca(expr_data)
 plot_component(pca_object, comp_idx = 1)
 
 }
-

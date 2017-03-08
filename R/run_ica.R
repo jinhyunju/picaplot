@@ -46,15 +46,17 @@ run_ica <- function(pheno_mx = NULL,
     } else {
         pheno_nrow <- nrow(pheno_mx)
         pheno_ncol <- ncol(pheno_mx)
-        message("Original dimensions of <pheno_mx> = ", pheno_nrow , " x ", pheno_ncol, "\n")
+        message("Original dimensions of <pheno_mx> = ",
+                pheno_nrow , " x ", pheno_ncol, "\n")
 
         if (pheno_nrow < pheno_ncol){
-            message("[Caution] Number of samples exceeding number of measured features,
-                    please check rows and columns of <pheno_mx> \n")
-            message("* If you are from the future and have more samples than measured features,
-                    disregard the above message and please proceed. \n")
+            message("[Caution] Number of samples exceeding number of measured
+                    features, please check rows and columns of <pheno_mx> \n")
+            message("* If you are from the future and have more samples than
+                    measured features, disregard the above message and please
+                    proceed. \n")
         }
-        }
+    }
 
     if(is.null(colnames(pheno_mx))){
         message("<pheno_mx> is missing column names, setting to default (sample#). \n")
@@ -67,7 +69,8 @@ run_ica <- function(pheno_mx = NULL,
     }
 
     if(is.null(n_cores)){
-        message("<n_cores> not specified. Using single core for calculations. \n")
+        message("<n_cores> not specified.
+                Using single core for calculations. \n")
         n_cores = 1
     }
 
@@ -76,17 +79,20 @@ run_ica <- function(pheno_mx = NULL,
     pheno_mx <- pre_process_data(pheno_mx, scale_pheno = scale_pheno)
 
     if(is.null(k_est)){
-        message("Missing input for <k_est>, using the number of principal components explaining 99% of total variance \n")
+        message("Missing input for <k_est>, using the number of principal
+                components explaining 99% of total variance \n")
         # running PCA on data
-        pca_pheno <- prcomp(t(pheno_mx))
+        pca_pheno <- stats::prcomp(t(pheno_mx))
         percent <- (cumsum(pca_pheno$sdev^2) /sum(pca_pheno$sdev^2)) * 100
         k_est <- which(percent > var_cutoff)[1]
-        message(k_est," components needed to explain more than ",var_cutoff,"% of the variance \n")
+        message(k_est," components needed to explain more than ",
+                var_cutoff,"% of the variance \n")
         message("<k_est> set to ", k_est, "\n")
 
         if(k_est == 1){
-            stop("1 component explains more than", var_cutoff, "% of the variance,
-                 check your data or set <k_est> to a number bigger than 1 \n")
+            stop("1 component explains more than", var_cutoff,
+                 "% of the variance, check your data or
+                 set <k_est> to a number bigger than 1 \n")
         }
     }
 
@@ -97,21 +103,29 @@ run_ica <- function(pheno_mx = NULL,
     message("------ Running ICA ------- \n")
     message("* This may take some time depending on the size of your dataset \n")
     if(n_runs > 1){
-        message("<n_runs> set to ", n_runs, " / initiating multiple ICA runs \n")
-        message("- Generating ", n_runs, " replicates using ", n_cores, " core(s) \n")
+        message("<n_runs> set to ", n_runs,
+                " / initiating multiple ICA runs \n")
+        message("- Generating ", n_runs,
+                " replicates using ", n_cores, " core(s) \n")
         message("- Estimated components = ", k_est, "\n")
 
         ica_list <- parallel::mclapply(1:n_runs,
-                                       function(x) fastICA_gene_expr(pheno_mx, k_est,
-                                                                     fun = "logcosh",
-                                                                     alpha = 1, scale_pheno = FALSE,
-                                                                     maxit=500, tol = 0.0001,
-                                                                     verbose = FALSE),
+                                       function(x)
+                                           fastICA_gene_expr(pheno_mx, k_est,
+                                                             fun = "logcosh",
+                                                             alpha = 1,
+                                                             scale_pheno = FALSE,
+                                                             maxit = 500,
+                                                             tol = 0.0001,
+                                                             verbose = FALSE),
                                        mc.cores = n_cores)
 
         for(i in 1:length(ica_list)){
 
-            ica_list[[i]]$peak_mx <- apply(ica_list[[i]]$S, 2, function(x) 1*(abs(x) > 2*sd(x)))
+            ica_list[[i]]$peak_mx <- apply(ica_list[[i]]$S,
+                                           2,
+                                           function(x)
+                                               1*(abs(x) > 2*stats::sd(x)))
 
         }
 
@@ -125,12 +139,13 @@ run_ica <- function(pheno_mx = NULL,
 
         if(similarity_measure == "peaks"){
             if(0 %in% apply(peak_matrix, 2, sum)){
-                cor.mx <- cor(combined_S)
+                cor.mx <- stats::cor(combined_S)
             } else{
                 # do element-wise multiplication to only save values for peaks
                 peak.component <- peak_matrix * combined_S
-                # calculate correlation between components (only with their peak values)
-                cor.mx <- cor(peak.component)
+                # calculate correlation between components
+                # (only with their peak values)
+                cor.mx <- stats::cor(peak.component)
             }
         } else {
             # if similarity measure is not based on "peaks"
@@ -143,13 +158,13 @@ run_ica <- function(pheno_mx = NULL,
         dissimilarity <- 1 - abs(cor.mx)
 
         # convert into distance matrix format for clustering
-        cor.dist <- as.dist(dissimilarity)
+        cor.dist <- stats::as.dist(dissimilarity)
 
         # run hierarchical clustering
-        h_clust <- hclust(cor.dist)
+        h_clust <- stats::hclust(cor.dist)
 
         # cut tree at h_clust_cutoff (absolute correlation > 1 - h_clust_cutoff)
-        groups <- cutree(h_clust, h=h_clust_cutoff)
+        groups <- stats::cutree(h_clust, h=h_clust_cutoff)
 
         # count member components for each group
         group_table <- table(groups)
@@ -158,10 +173,11 @@ run_ica <- function(pheno_mx = NULL,
         multi_component_group <- which(group_table >= (n_runs * 0.9))
 
         k_update <- length(multi_component_group)
-        message("- ",k_update," Replicating Components Estimated \n")
+        message("- ", k_update," Replicating Components Estimated \n")
 
         if(k_update < 1){
-            stop('None of the ICs replicated. You could try to the increase sample size or <n_runs>. \n')
+            stop('None of the ICs replicated.
+                 You could try to the increase sample size or <n_runs>. \n')
         }
 
         # Averaging the components estimated in multiple runs
@@ -179,7 +195,8 @@ run_ica <- function(pheno_mx = NULL,
             # calculate correlation between them
             group_cor_mx <- cor(sub_group_S)
 
-            # in order to average the components signs need to be matched (positive vs negative)
+            # in order to average the components
+            # signs need to be matched (positive vs negative)
             match_sign <- ifelse(group_cor_mx[,1] < 0, -1,1 )
 
             # calculate the mean component
@@ -232,7 +249,8 @@ run_ica <- function(pheno_mx = NULL,
 
     # applying IC component-wise variance calculations
     var_IC <- sapply(1:dim(ica_result$A)[1],
-                     function (x) IC_variance_calc(ica_result$S[,x], ica_result$A[x,]))
+                     function (x) IC_variance_calc(ica_result$S[,x],
+                                                   ica_result$A[x,]))
 
     # % variance explained by each IC
     percent_var <- (var_IC / total_var) * 100
@@ -263,13 +281,15 @@ run_ica <- function(pheno_mx = NULL,
 # with a dataframe of measured covariates to test the association
 # between them.
 #
-# @param ica.input.s A single column of the S matrix with dimensions 1 x g  \code{s}
+# @param ica.input.s A single column of the S matrix with dimensions 1 x g \code{s}
 # @return A vector that contains the gene weights of the signficant peaks for a single independent component sorted
 # in the decreasing order of absolute magnitude.
 #
 peak_detection <- function(ica.input.s){
-    peaks.idx <- which(abs(ica.input.s) > (2 * sd(ica.input.s))) # get the peak indexes
-    peaks <- ica.input.s[names(sort(abs(ica.input.s[peaks.idx]), decreasing = T))]
+    peaks.idx <- which(abs(ica.input.s) > (2 * stats::sd(ica.input.s)))
+    # get the peak indexes
+    peaks <- ica.input.s[names(sort(abs(ica.input.s[peaks.idx]),
+                        decreasing = TRUE))]
     # sort them in decreasing order of absolute magnitude
     return(peaks)
 }

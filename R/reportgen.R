@@ -24,7 +24,6 @@
 #'
 #' @examples
 #'
-#' \dontrun{
 #' data(expr_data)
 #'
 #' ica_object <- run_ica(expr_data)
@@ -34,7 +33,6 @@
 #' reportgen(ica_object, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
 #'
 #'
-#' }
 #'
 #' @export
 reportgen <- function(input_list = NULL,

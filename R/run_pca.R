@@ -55,7 +55,7 @@ run_pca <- function(pheno_mx = NULL,
     pheno_mx <- pre_process_data(pheno_mx, scale_pheno = scale_pheno)
 
     message("Running PCA \n")
-    pca_result <- prcomp(t(pheno_mx))
+    pca_result <- stats::prcomp(t(pheno_mx))
 
     # calculating percent variance each component explains
     pca_result$percent_var <- (pca_result$sdev^2 / sum(pca_result$sdev^2)) * 100

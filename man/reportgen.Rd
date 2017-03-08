@@ -35,7 +35,6 @@ Generating a HTML report from a ICA or PCA list object.
 }
 \examples{
 
-\dontrun{
 data(expr_data)
 
 ica_object <- run_ica(expr_data)
@@ -45,8 +44,6 @@ ica_object <- detect_clusters(ica_object)
 reportgen(ica_object, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
 
 
-}
 
 }
 \keyword{keywords}
-

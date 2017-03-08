@@ -27,4 +27,3 @@ Molecular profiling of contact dermatitis skin identifies allergen-dependent dif
 J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
 }
 \keyword{datasets}
-

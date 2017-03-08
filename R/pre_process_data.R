@@ -19,7 +19,7 @@
 # apply(centered.scaled, 1, sd)
 # @export
 pre_process_data <- function(input_matrix, scale_pheno){
-    var.vec <- apply(input_matrix, 1, var)
+    var.vec <- apply(input_matrix, 1, stats::var)
     var0.count <- sum(var.vec == 0)
 
     # Remove 0 variance  if existing
@@ -34,7 +34,7 @@ pre_process_data <- function(input_matrix, scale_pheno){
     if(scale_pheno == TRUE){
         message("- Centering and Scaling Input Matrix \n")
         # scale Input matrix to have 0 mean and 1 sd
-        input_matrix <- t(apply(input_matrix, 1, function(x) (x - mean(x))/sd(x)))
+        input_matrix <- t(apply(input_matrix, 1, function(x) (x - mean(x))/stats::sd(x)))
     } else {
         message("- Centering Input Matrix without Scaling \n")
         input_matrix <- t(apply(input_matrix, 1, function(x) (x - mean(x))))
