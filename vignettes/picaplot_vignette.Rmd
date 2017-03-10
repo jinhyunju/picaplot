@@ -7,45 +7,506 @@ vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+references:
+- volume: 10
+  page: 626-634
+  container-title: IEEE transactions on Neural Networks
+  author:
+    family: Hyvarinen
+    given:
+    - Aapo
+  id: hyvarinen1999fast
+  issued:
+    year: 1999
+  title: Fast and robust fixed-point algorithms for independent component analysis
+  type: article-journal
+  publisher: IEEE
+  issue: 3
+- volume: 18
+  page: 51-60
+  container-title: Bioinformatics
+  author:
+    family: Liebermeister
+    given:
+    - Wolfram
+  id: liebermeister2002linear
+  issued:
+    year: 2002
+  title: Linear modes of gene expression determined by independent component analysis
+  type: article-journal
+  publisher: Oxford Univ Press
+  issue: 1
+- volume: 43
+  page: 932-944
+  title-short: Independent component analysis
+  container-title: Journal of biomedical informatics
+  author:
+  - family: Engreitz
+    given:
+    - Jesse
+    - M
+  - family: Daigle
+    given:
+    - Bernie
+    - J
+  - family: Marshall
+    given:
+    - Jonathan
+    - J
+  - family: Altman
+    given:
+    - Russ
+    - B
+  id: engreitz2010independent
+  issued:
+    year: 2010
+  title: 'Independent component analysis: mining microarray data for fundamental
+    human gene expression modules'
+  type: article-journal
+  publisher: Elsevier
+  issue: 6
+- volume: 12
+  page: 97
+  container-title: BMC genomics
+  author:
+  - family: Bang-Berthelsen
+    given:
+    - Claus
+    - H
+  - family: Pedersen
+    given:
+    - Lykke
+  - family: "Fløyel"
+    given:
+    - Tina
+  - family: Hagedorn
+    given:
+    - Peter
+    - H
+  - family: Gylvin
+    given:
+    - Titus
+  - family: Pociot
+    given:
+    - Flemming
+  id: bang2011independent
+  issued:
+    year: 2011
+  title: Independent component and pathway-based analysis of miRNA-regulated gene
+    expression in a model of type 1 diabetes
+  type: article-journal
+  publisher: BioMed Central Ltd
+  issue: 1
+- volume: 9
+  page: 1
+  container-title: BMC bioinformatics
+  author:
+  - family: Biswas
+    given:
+    - Shameek
+  - family: Storey
+    given:
+    - John
+    - D
+  - family: Akey
+    given:
+    - Joshua
+    - M
+  id: biswas2008mapping
+  issued:
+    year: 2008
+  title: Mapping gene expression quantitative trait loci by singular value decomposition
+    and independent component analysis
+  type: article-journal
+  publisher: BioMed Central
+  issue: 1
+- volume: 7
+  page: e1002367
+  container-title: PLoS Genet
+  author:
+  - family: Rotival
+    given:
+    - Maxime
+  - family: Zeller
+    given:
+    - Tanja
+  - family: Wild
+    given:
+    - Philipp
+    - S
+  - family: Maouche
+    given:
+    - Seraya
+  - family: Szymczak
+    given:
+    - Silke
+  - family: Schillert
+    given:
+    - Arne
+  - family: "Castagné"
+    given:
+    - Raphaele
+  - family: Deiseroth
+    given:
+    - Arne
+  - family: Proust
+    given:
+    - Carole
+  - family: Brocheton
+    given:
+    - Jessy
+  - literal: others
+  id: rotival2011integrating
+  issued:
+    year: 2011
+  title: Integrating genome-wide genetic variations and monocyte expression data reveals
+    trans-regulated gene modules in humans
+  type: article-journal
+  publisher: Public Library of Science
+  issue: 12
+- volume: 4
+  page: 1
+  container-title: Genome biology
+  author:
+  - family: Lee
+    given:
+    - Su-In
+  - family: Batzoglou
+    given:
+    - Serafim
+  id: lee2003application
+  issued:
+    year: 2003
+  title: Application of independent component analysis to microarrays
+  type: article-journal
+  publisher: BioMed Central
+  issue: 11
+- volume: 46
+  author:
+  - family: "Hyvärinen"
+    given:
+    - Aapo
+  - family: Karhunen
+    given:
+    - Juha
+  - family: Oja
+    given:
+    - Erkki
+  id: hyvarinen2004independent
+  issued:
+    year: 2004
+  title: Independent component analysis
+  type: book
+  publisher: John Wiley & Sons
+- volume: 3
+  page: e161
+  container-title: PLoS Genet
+  author:
+  - family: Leek
+    given:
+    - Jeffrey
+    - T
+  - family: Storey
+    given:
+    - John
+    - D
+  id: leek2007capturing
+  issued:
+    year: 2007
+  title: Capturing heterogeneity in gene expression studies by surrogate variable
+    analysis
+  type: article-journal
+  publisher: Public Library of Science
+  issue: 9
+- volume: 11
+  page: 733-739
+  container-title: Nature Reviews Genetics
+  author:
+  - family: Leek
+    given:
+    - Jeffrey
+    - T
+  - family: Scharpf
+    given:
+    - Robert
+    - B
+  - family: Bravo
+    given:
+    - ! "Héctor"
+    - Corrada
+  - family: Simcha
+    given:
+    - David
+  - family: Langmead
+    given:
+    - Benjamin
+  - family: Johnson
+    given:
+    - W
+    - Evan
+  - family: Geman
+    given:
+    - Donald
+  - family: Baggerly
+    given:
+    - Keith
+  - family: Irizarry
+    given:
+    - Rafael
+    - A
+  id: leek2010tackling
+  issued:
+    year: 2010
+  title: Tackling the widespread and critical impact of batch effects in high-throughput
+    data
+  type: article-journal
+  publisher: Nature Publishing Group
+  issue: 10
+- volume: 3
+  page: e161
+  container-title: PLoS Comput Biol
+  author:
+  - family: Teschendorff
+    given:
+    - Andrew
+    - E
+  - family: "Journée"
+    given:
+    - Michel
+  - family: Absil
+    given:
+    - Pierre
+    - A
+  - family: Sepulchre
+    given:
+    - Rodolphe
+  - family: Caldas
+    given:
+    - Carlos
+  id: teschendorff2007elucidating
+  issued:
+    year: 2007
+  title: Elucidating the altered transcriptional programs in breast cancer using independent
+    component analysis
+  type: article-journal
+  publisher: Public Library of Science
+  issue: 8
+- volume: 27
+  page: 1496-1505
+  container-title: Bioinformatics
+  author:
+  - family: Teschendorff
+    given:
+    - Andrew
+    - E
+  - family: Zhuang
+    given:
+    - Joanna
+  - family: Widschwendter
+    given:
+    - Martin
+  id: teschendorff2011independent
+  issued:
+    year: 2011
+  title: Independent surrogate variable analysis to deconvolve confounding factors
+    in large-scale microarray profiling studies
+  type: article-journal
+  publisher: Oxford Univ Press
+  issue: 11
+- volume: 9
+  page: 1235-1245
+  container-title: Cell reports
+  author:
+  - family: Biton
+    given:
+    - Anne
+  - family: Bernard-Pierrot
+    given:
+    - Isabelle
+  - family: Lou
+    given:
+    - Yinjun
+  - family: Krucker
+    given:
+    - ! "Clémentine"
+  - family: Chapeaublanc
+    given:
+    - Elodie
+  - family: "Rubio-Pérez"
+    given:
+    - Carlota
+  - family: "López-Bigas"
+    given:
+    - Nuria
+  - family: Kamoun
+    given:
+    - ! "Aurélie"
+  - family: Neuzillet
+    given:
+    - Yann
+  - family: Gestraud
+    given:
+    - Pierre
+  - literal: others
+  id: biton2014independent
+  issued:
+    year: 2014
+  title: Independent component analysis uncovers the landscape of the bladder tumor
+    transcriptome and reveals insights into luminal and basal subtypes
+  type: article-journal
+  publisher: Elsevier
+  issue: 4
+- note: R package version 1.2-0
+  URL: "http://CRAN.R-project.org/package=fastICA"
+  title-short: fastICA
+  author:
+  - family: Marchini
+    given:
+    - J
+    - L
+  - family: Heaton
+    given:
+    - C
+  - family: Ripley
+    given:
+    - B
+    - D
+  id: fastICA2013
+  issued:
+    year: 2013
+  title: 'fastICA: fastICA algorithms to perform iCA and projection pursuit'
+  type: book
+- note: Technical Report No. 597
+  URL: "http://CRAN.R-project.org/package=mclust"
+  title-short: mclust version 4 for r
+  author:
+  - family: Fraley
+    given:
+    - C
+  - family: Raftery
+    given:
+    - A
+    - E
+  - family: Murphy
+    given:
+    - T
+    - Brendan
+  - family: Scrucca
+    given:
+    - L
+  id: mclust2012
+  issued:
+    year: 2012
+  title: 'mclust version 4 for r: normal mixture modeling for model-based clustering,
+    classification, and density estimation'
+  type: book
+- note: R package version 1.14.0
+  URL: "http://bioconductor.org/packages/MineICA/"
+  title-short: MineICA
+  author:
+    family: Biton
+    given:
+    - Anne
+  id: mineica2012
+  issued:
+    year: 2012
+  title: 'MineICA: analysis of an iCA decomposition obtained on genomics data'
+  type: book
+- volume: 134
+  page: 362-372
+  container-title: Journal of Allergy and Clinical Immunology
+  author:
+  - family: Dhingra
+    given:
+    - Nikhil
+  - family: Shemer
+    given:
+    - Avner
+  - family: Rosa
+    dropping-particle: da
+    given:
+    - Joel
+    - Correa
+  - family: Rozenblit
+    given:
+    - Mariya
+  - family: Fuentes-Duculan
+    given:
+    - Judilyn
+  - family: Gittler
+    given:
+    - Julia
+    - K
+  - family: Finney
+    given:
+    - Robert
+  - family: Czarnowicki
+    given:
+    - Tali
+  - family: Zheng
+    given:
+    - Xiuzhong
+  - family: Xu
+    given:
+    - Hui
+  - literal: others
+  id: dhingra2014molecular
+  issued:
+    year: 2014
+  title: Molecular profiling of contact dermatitis skin identifies allergen-dependent
+    differences in immune response
+  type: article-journal
+  publisher: Elsevier
+  issue: 2
 ---
 
-The `picaplot` package provides functions that perform principal or independent component analysis and easy visualization of the results. 
+The **picaplot** package provides functions that perform principal or independent component analysis and easy visualization of the results.
 
-## Quick Start
+## Introduction
 
-### Important Note
+With the introduction of microarrays the simultaneous quantification of expression levels of many genes became easy, and RNA-seq expanded the scope by enabling the detection of previously unknown genes and isoforms. 
+Critical to drawing correct biological conclusions from the analysis of such high-dimensional data is pre-analysis detection and correction for systematic differences caused by measured and unmeasured factors, such as technical batch effects and heterogeneous environmental conditions [@leek2010tackling]. 
+If not accounted for, these cryptic factors can often contribute a significant proportion of the total variation in gene expression data, which can result in obscured signals of experimental impacts or worse, systematic biases and artifacts that are incorrectly interpreted as biological findings. 
+Besides, these factors can potentially lead to interesting biological findings themselves by revealing differences in pathway activation patterns or cellular states depending on different environments.
+The most routinely used method to inspect the data for apparent patterns prior to analysis is principal component analysis (PCA).  In most cases, the lower dimensional projections of the data onto the first few principal components are used to reveal patterns or clusters among samples that explain the largest amount of variance.  
+While clearly a valuable approach due to the well defined statistical properties and relatively simple calculations, PCA is likely to return mixtures of multiple independent factor effects unless these happen to be aligned with the dimensions of greatest variation in the data [@teschendorff2007elucidating]. 
+Therefore, directly interpreting principal components can often be problematic and misleading. 
+Additionally, by only considering an arbitrary number of components, patterns that have lower contribution to the overall variance can easily be missed. 
+Independent Component Analysis (ICA), which is a blind source separation method that decomposes the data into statistically independent components, can provide a clearer separation of these components. By using a stronger principle of statistical independence, ICA is expected to return interpretable components each aligning with an independent factor as long as these factors are non-Gaussian.
+ICA has been applied to problems such as voice and image separation, and more recently to high dimensional gene expression data to estimate non-Gaussian generative sources from an observed mixture. 
+For example, studies have used ICA on problems such as expression pattern analysis[@liebermeister2002linear, @lee2003application, @engreitz2010independent, @bang2011independent] , tumor classification[@teschendorff2007elucidating, @biton2014independent], and analyzing the effects of genetic variation [@biswas2008mapping, @rotival2011integrating]. Additionally, packages such as **MineICA** [@mineica2012] have been developed to analyze gene expression data with ICA. 
+Here we propose a gene expression analysis framework **picaplot**, centered on the application of ICA with an emphasis in inspecting and visualizing information about every component to provide a more accurate, interpretable, and comprehensive estimation of covariate effects. Moreover, we have implemented parallel functionality for PCA analysis to directly compare the results with that of the ICA output.
+The key features of **picaplot** include simple application of PCA / ICA to gene expression data, easy visualization of single components, comprehensive report **HTML** report generation for multiple components, automated cluster detection to identify cryptic covariate effects, association testing to reveal relationships with known covariates, and interpretable outputs that are easy to incorporate as fixed effects in analyses using linear models. 
 
-The report generating feature of this package requires a program called ```pandoc``` version 1.12.3 or higher to be installed. This is not a problem when you are using the most recent version of Rstudio (1.0.136 at the moment - 16 January 2017), since it comes with the required ```pandoc``` functionality. However, if you are running ```picaplot``` from good-old-fashioned-R (whether you are running it on a cluster or on your local machine) you might run into an error message that pandoc is not installed. In such a case, please review the following link to install the correct version of pandoc on your machine. (https://github.com/rstudio/rmarkdown/blob/master/PANDOC.md)
-
-### 1.Loading and Preparing an Example Dataset
+## 1.Loading and Preparing an Example Dataset
 
 If you already know what you want to use the package for, follow this simple example to get started!
 
-#### 1) Installing the package through the function ```install_github``` from the package ```devtools```.
+### 1) Installing the package through the function ```install_github``` from the package ```devtools```.
 
-- `picaplot` has a few dependencies and you need to install them manually before you install `picaplot`. Simply run the code below to install the dependencies.
+- **picaplot** has a few dependencies and you need to install them manually before you install **picaplot**. Simply run the code below to install the dependencies.
 
 ```{r dependencies, eval = FALSE}
 
-picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown", "devtools")
+picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown", "mclust")
 
 install.packages(picaplot_dependencies)
 
 ``` 
 
-- To install `picaplot` from github:
+- To install **picaplot** from github using **devtools**:
 
 ```{r install, eval = FALSE}
 
+install.packages("devtools")
+library(devtools)
 devtools::install_github("jinhyunju/picaplot") #installing picaplot
 
 ```
 
-#### 2) Loading an example dataset
+### 2) Loading an example dataset
 
-Here we are going to use a public dataset that is available on the Gene Expression Omnibus (GSE60028). 
-
--Dhingra N, Shemer A, Correa da Rosa J, Rozenblit M et al. Molecular profiling of contact dermatitis skin identifies allergen-dependent differences in immune response. J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
+Here we are going to use a public dataset that is available on the Gene Expression Omnibus (GSE60028) [@dhingra2014molecular].
 
 You can also start with using your own dataset, it just needs to be a matrix which has the dimension of (gene x samples). A dataframe with covariate information is optional with dimensions (samples x covariates). A subset of the data is included with the package and can be loaded into the environment by simply using the `data()` function. (Note that 10% of the total probes were used to be included in the package to reduce the size)
 
@@ -70,19 +531,19 @@ source(example.data.script)
 
 - Please be aware that the script will install two packages ```GEOquery``` and ```biomaRt``` if you don't already have it on your machine. The process will take a few minutes depending on your internet connection, since it is downloading data from GEO and biomaRt. If everything ran correctly, it will generate 3 objects, ```expr_data```, ```sample_info```, and ```probe_info```.
 
-- ```expr_data``` = gene expression measurements for 26391 probes and 47 samples. (2642 probes if loaded from package)
+- ```expr_data``` = gene expression measurements for 2642 probes and 47 samples. (26391 probes total in `expr_all_probes`)
 
 - ```sample_info``` = 5 covariates for each sample 
 
-- ```probe_info``` = positional information for 26391 probes (2642 probes if loaded from package)
+- ```probe_info``` = positional information for 2642 probes (26391 probes total in `probe_all_info`)
   
 One thing that you have to watch out for is that the rownames of ```sample_info``` have to match the column names of the ```expr_data```. They don't necessarily have to be in the same order but they should have names that overlap. 
 
-### 2. Core Functionality of the package
+## 2. Core Functionality of the package
 
-#### 1) Running PCA / ICA 
+### 1) Running PCA / ICA 
 
-The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively.  
+The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively. The core functionality of `run_ica()` is using a slightly modified version of the code adopted from the R package **fastICA** [@fastICA2013].
 
 ```{r set_seed, echo = FALSE}
 
@@ -93,18 +554,18 @@ set.seed(1987)
 
 ```{r run ica and pca}
 # run PCA 
-pca_object <- run_pca(expr_data)
+pca_result <- run_pca(expr_data)
 
 # run ICA
-ica_object <- run_ica(expr_data)
+ica_result <- run_ica(expr_data)
 
 ```
 
-This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
+This generates a list containing information regarding the PCA / ICA outputs.
 
 #### 1-1) `run_pca()` outputs
 
-The following entries will be generated in the output list `pca_object` after running the example above. 
+The following entries will be generated in the output list `pca_result` after running the example above. 
 
   * `rotation` : Matrix of principal component gene weights where each column represents a single component. (standard `prcomp()` output)
   
@@ -124,7 +585,7 @@ The following entries will be generated in the output list `pca_object` after ru
 
 #### 1-2) `run_ica()` outputs
 
-The following entries will be generated in the output list `ica_object` after running the example above. 
+The following entries will be generated in the output list `ica_result` after running the example above. 
 
   * `A` : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard `fastICA()` output)
   
@@ -140,16 +601,16 @@ The following entries will be generated in the output list `ica_object` after ru
   
   * Three attributes are set within the list object. "ICAobject" for `class`, "ica" for `method` and "no" for `covar_cor`.
 
-#### 2) Testing Associations Between Covariates and Components
+### 2) Testing Associations Between Covariates and Components
 
 As an optional step, you can check whether any covariates are associated with any of the components with the function `covar_association_check()` that can be applied to both PCA and ICAobjects. In this example, we are going to test the associations between the covariats in `sample_info` and each PC and IC. 
 
 ```{r covar_association_check}
 
-pca_object <- covar_association_check(pca_object, 
+pca_result <- covar_association_check(pca_result, 
                                       covars = sample_info)
 
-ica_object <- covar_association_check(ica_object, 
+ica_result <- covar_association_check(ica_result, 
                                       covars = sample_info)
 
 ```
@@ -165,28 +626,28 @@ This will add the following entries to the list.
   * `covar_threshold` : The threshold for calling a covariate association significant. The default is set to 0.05 divided by the number of tests (= `length(covar_pvals)`).
 
 
-#### 3) Applying unsupervised clustering to IC coefficients / PC projections
+### 3) Applying unsupervised clustering to IC coefficients / PC projections
 
-To identify any sample clusters that are not associated with measured covariates, `picaplot` provides an optional unsupervised clustering approach using functionalities from the `mclust` package. If both covariate association testing and clustering information are available, the plotting function will attempt to use the associated covariates first and if they are not available use clustering labels generated by `mclust` for each component. 
+To identify any sample clusters that are not associated with measured covariates, **picaplot** provides an optional unsupervised clustering approach using functionalities from the **mclust** package [@mclust2012]. If both covariate association testing and clustering information are available, the plotting function will attempt to use the associated covariates first and if they are not available use clustering labels generated by **mclust** for each component. 
 
 ```{r detect_clusters}
 
-ica_object <- detect_clusters(ica_object)
+ica_result <- detect_clusters(ica_result)
 
-pca_object <- detect_clusters(pca_object)
+pca_result <- detect_clusters(pca_result)
 
 ```
 
-#### 4) Plotting Individual Components
+### 4) Plotting Individual Components
 
 Individual components can be inspected by using the `plot_component()` function. This will generate 3 plots showing the gene loading on the component of interest and the component coefficients. You can specify which component to inspect by setting the component index in the option `comp_idx`.
 
 ```{r plot_indv_comp, fig.align='center', fig.width= 7, fig.height = 3}
 
-pc1_plot = plot_component(pca_object, 
+pc1_plot = plot_component(pca_result, 
                           comp_idx = 1)
 
-ic1_plot = plot_component(ica_object,
+ic1_plot = plot_component(ica_result,
                           comp_idx = 1)
 
 ```
@@ -200,38 +661,45 @@ If you have information regarding the chromosome and position of each gene you c
 
 ```{r plot_comp_with_gene_info, fig.width= 7, fig.height = 3}
 
-pc1_color = plot_component(pca_object, 
+pc1_color = plot_component(pca_result, 
                            comp_idx = 1, 
                            geneinfo_df = probe_info)
 
-ic1_color = plot_component(ica_object, 
+ic1_color = plot_component(ica_result, 
                            comp_idx = 1, 
                            geneinfo_df = probe_info)
 
 ```
 
-#### 5) Generate a Report for All Components
+### 5) Generate a Report for All Components
+
+#### Important Note
+
+The report generating feature of this package requires **pandoc** version 1.12.3 or higher to be installed. This is not a problem when you are using the most recent version of Rstudio (1.0.136 at the moment - 16 January 2017), since it comes with the required **pandoc** functionality. However, if you are running **pandoc** from good-old-fashioned-R (whether you are running it on a cluster or on your local machine) you might run into an error message that pandoc is not installed. In such a case, please review the following link to install the correct version of pandoc on your machine. (https://github.com/rstudio/rmarkdown/blob/master/PANDOC.md)
 
 To create an HTML report showing all components with more detail use the `reportgen()` function. You can control the number of components to be plotted by setting `n_comps`, if `n_comps` is not specified it will plot every component. The default order is set by the amount of variance each component explains. If option `output_path` is not set, it will generate the report and plots in the current working directory.
 
 ```{r report_gen, eval = FALSE}
 
-reportgen(pca_object,  prefix = "PCAreport", geneinfo_df = probe_info)
+reportgen(pca_result,  prefix = "PCAreport", geneinfo_df = probe_info)
 
-reportgen(ica_object,  prefix = "ICAreport", geneinfo_df = probe_info)
+reportgen(ica_result,  prefix = "ICAreport", geneinfo_df = probe_info)
 
 
 ```
 
-#### 6) Generate a Covariate Matrix for a Linear Model
+### 6) Generate a Covariate Matrix for a Linear Model
 
 After testing for covariate associations and clustering the user can generate a covariate matrix of IC coefficients or PC projections using the `get_covariate_mx` function. By default it will return a matrix that contains IC coefficients or PC projections of components associated with known covariates or those with multiple clusters detected. The user can specify the index of the components to customize the matrix in the option `idx`.
 
 
-```{r create_covar_mx, eval = FALSE}
+```{r create_covar_mx}
 
-ic_covar_mx = get_covariate_mx(ica_object)
+ic_covar_mx = get_covariate_mx(ica_result)
 
-pc_covar_mx = get_covariate_mx(pca_object)
+pc_covar_mx = get_covariate_mx(pca_result)
 
 ```
+
+
+## References

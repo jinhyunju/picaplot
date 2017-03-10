@@ -1,11 +1,11 @@
 Package: picaplot
 Type: Package
-Title: An R package for identifying cryptic covariate effects in gene expression data
+Title: An R package for analyzing gene expression data with Principal / Independent Component Analysis
 Version: 0.99.0
 Date: 2017-01-18
 Author: Jin Hyun Ju
 Maintainer: Jin Hyun Ju <jinhyun.ju@gmail.com>
-Description: picaplot provides a simple workflow to apply ICA and PCA to gene expression data.
+Description: The functionalities included in the picaplot package provides the user with a simple workflow for the application of ICA and/or PCA to gene expression data, and for the analysis of the results. Key features of picaplot includes the visualization of individual components, comprehensive HTML report generation, association testing between components with measured variables, and unsupervised clustering of component coefficients. 
 License: GPL-2
 LazyData: TRUE
 RoxygenNote: 6.0.1
@@ -18,4 +18,4 @@ Imports:
     mclust,
     rmarkdown
 VignetteBuilder: knitr
-biocViews: GeneExpression, PrincipalComponent, DataRepresentation
+biocViews: GeneExpression, PrincipalComponent, Visualization, Clustering

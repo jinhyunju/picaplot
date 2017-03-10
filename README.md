@@ -16,15 +16,18 @@ If you already know what you want to use the package for, follow this simple exa
 
 ```r
 
-picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown", "devtools")
+picaplot_dependencies <- c("ggplot2", "knitr", "rmarkdown", "mclust")
 
 install.packages(picaplot_dependencies)
 
 ``` 
 
-- To install `picaplot` from github:
+- To install `picaplot` from github using `devtools`:
 
 ```r
+
+install.packages("devtools")
+library(devtools)
 
 devtools::install_github("jinhyunju/picaplot") #installing picaplot
 
@@ -38,7 +41,7 @@ Here we are going to use a public dataset that is available on the Gene Expressi
 
 -Dhingra N, Shemer A, Correa da Rosa J, Rozenblit M et al. Molecular profiling of contact dermatitis skin identifies allergen-dependent differences in immune response. J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
 
-You can also start with using your own dataset, it just needs to be a matrix which has the dimension of (gene x samples). A dataframe with covariate information is optional with dimensions (samples x covariates). The data is included with the package and can be loaded into the environment by simply using the `data()` function.
+You can also start with using your own dataset, it just needs to be a matrix which has the dimension of (gene x samples). A dataframe with covariate information is optional with dimensions (samples x covariates). A subset of the data is included with the package and can be loaded into the environment by simply using the `data()` function. (Note that 10% of the total probes were used to be included in the package to reduce the size)
 
 
 ```r
@@ -59,12 +62,12 @@ source(example.data.script)
 
 - Please be aware that the script will install two packages ```GEOquery``` and ```biomaRt``` if you don't already have it on your machine. The process will take a few minutes depending on your internet connection, since it is downloading data from GEO and biomaRt. If everything ran correctly, it will generate 3 objects, ```expr_data```, ```sample_info```, and ```probe_info```.
 
-- ```expr_data``` = gene expression measurements for 26391 probes and 47 samples. 
+- ```expr_data``` = gene expression measurements for 2642 probes and 47 samples. (26391 probes total in `expr_all_probes`)
 
 - ```sample_info``` = 5 covariates for each sample 
 
-- ```probe_info``` = positional information for 26391 probes
-  
+- ```probe_info``` = positional information for 2642 probes (26391 probes total in `probe_all_info`)
+
 One thing that you have to watch out for is that the rownames of ```sample_info``` have to match the column names of the ```expr_data```. They don't necessarily have to be in the same order but they should have names that overlap. 
 
 ### 2. Core Functionality of the package
