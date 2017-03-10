@@ -1,4 +1,10 @@
-The `picaplot` package provides functions that perform principal or independent component analysis and easy visualization of the results. 
+The `picaplot` package provides functions that perform principal or independent component analysis and easy visualization of the results.
+
+### Introduction
+
+Here we propose a gene expression analysis framework `picaplot`, centered on the application of ICA with an emphasis in inspecting and visualizing information about every component to provide a more accurate, interpretable, and comprehensive estimation of covariate effects. 
+Moreover, we have implemented parallel functionality for PCA analysis to directly compare the results with that of the ICA output.
+The key features of `picaplot` include simple application of PCA / ICA to gene expression data, easy visualization of single components, comprehensive report `HTML` report generation for multiple components, automated cluster detection to identify cryptic covariate effects, association testing to reveal relationships with known covariates, and interpretable outputs that are easy to incorporate as fixed effects in analyses using linear models. 
 
 ## Quick Start
 
