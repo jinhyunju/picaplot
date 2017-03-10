@@ -4,10 +4,16 @@
 \alias{run_pca}
 \title{Custom PCA function for analyzing gene expression data.}
 \usage{
-run_pca(pheno_mx = NULL, scale_pheno = FALSE)
+run_pca(pheno_mx = NULL, se_obj = NULL, assay_idx = NULL,
+  scale_pheno = FALSE)
 }
 \arguments{
 \item{pheno_mx}{Phenotype matrix with diemnsions g x N, where g is the number of genes and N is the number of samples.}
+
+\item{se_obj}{The input for the function can also be a \code{SummarizedExperiment} or \code{RangedSummarizedExperiment} object created through the
+\code{SummarizedExperiment} package on bioconductor.}
+
+\item{assay_idx}{The assay index to be used to retrieved a single assay from the SummarizedExperiment object.}
 
 \item{scale_pheno}{Logical value specifying the scaling of row of the pheno_mx. Default is set to FALSE.}
 }

@@ -3,6 +3,9 @@
 #' Performing ICA on a dataset and create a list object with results.
 #'
 #' @param pheno_mx Phenotype matrix with diemnsions g x N, where g is the number of genes and N is the number of samples.
+#' @param se_obj The input for the function can also be a \code{SummarizedExperiment} or \code{RangedSummarizedExperiment} object created through the
+#'        \code{SummarizedExperiment} package on bioconductor.
+#' @param assay_idx The assay index to be used to retrieved a single assay from the SummarizedExperiment object.
 #' @param k_est Number of components to be estimated or method to estimate it.
 #' @param var_cutoff Percent variance threshold to use when <k_est> is not supplied.
 #' @param n_runs Number of times to run ICA. If this is set to a number larger than 1,
@@ -32,6 +35,8 @@
 #'
 #' @export
 run_ica <- function(pheno_mx = NULL,
+                    se_obj = NULL,
+                    assay_idx = NULL,
                     k_est = NULL,
                     var_cutoff = 99,
                     n_runs = 1,
@@ -41,22 +46,39 @@ run_ica <- function(pheno_mx = NULL,
                     max_iter = 10,
                     similarity_measure = "peaks"){
 
-    if(is.null(pheno_mx)){
+    if(is.null(pheno_mx) & is.null(se_obj)){
         stop("Error: Phenotype matrix is missing \n")
-    } else {
-        pheno_nrow <- nrow(pheno_mx)
-        pheno_ncol <- ncol(pheno_mx)
-        message("Original dimensions of <pheno_mx> = ",
-                pheno_nrow , " x ", pheno_ncol, "\n")
+    } else if (!is.null(se_obj) & is.null(pheno_mx)){
 
-        if (pheno_nrow < pheno_ncol){
-            message("[Caution] Number of samples exceeding number of measured
-                    features, please check rows and columns of <pheno_mx> \n")
-            message("* If you are from the future and have more samples than
-                    measured features, disregard the above message and please
-                    proceed. \n")
+        if(!is.null(assay_idx)){
+            pheno_mx <- SummarizedExperiment::assay(se_obj, assay_idx)
+        } else {
+            message("Assay number not specified, using the first entry as default")
+            pheno_mx <- SummarizedExperiment::assay(se_obj, 1)
         }
+
+    } else if (!is.null(pheno_mx) & is.null(se_obj)){
+        message("Using input pheno_mx for expression values")
+
+    } else {
+        stop("Both pheno_mx and se_obj are defined, please only supply one
+             phenotype matrix as input")
     }
+
+    pheno_nrow <- nrow(pheno_mx)
+    pheno_ncol <- ncol(pheno_mx)
+
+    message("Original dimensions of <pheno_mx> = ",
+            pheno_nrow , " x ", pheno_ncol, "\n")
+
+    if (pheno_nrow < pheno_ncol){
+        message("[Caution] Number of samples exceeding number of measured
+                features, please check rows and columns of <pheno_mx> \n")
+        message("* If you are from the future and have more samples than
+                measured features, disregard the above message and please
+                proceed. \n")
+    }
+
 
     if(is.null(colnames(pheno_mx))){
         message("<pheno_mx> is missing column names, setting to default (sample#). \n")

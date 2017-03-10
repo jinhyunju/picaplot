@@ -2,17 +2,14 @@ The `picaplot` package provides functions that perform principal or independent 
 
 ## Quick Start
 
-### Important Note
 
-The report generating feature of this package requires a program called ```pandoc``` version 1.12.3 or higher to be installed. This is not a problem when you are using the most recent version of Rstudio (0.98.1102 at the moment - 2 March 2015), since it comes with the required ```pandoc``` functionality. However, if you are running ```picaplot``` from good-old-fashioned-R (whether you are running it on a cluster or on your local machine) you might run into an error message that pandoc is not installed. In such a case, please review the following link to install the correct version of pandoc on your machine. (https://github.com/rstudio/rmarkdown/blob/master/PANDOC.md)
-
-### 1.Loading and Preparing an Example Dataset
+## 1.Loading and Preparing an Example Dataset
 
 If you already know what you want to use the package for, follow this simple example to get started!
 
-#### 1) Installing the package through the function ```install_github``` from the package ```devtools```.
+### 1) Installing the package through the function ```install_github``` from the package ```devtools```.
 
-- `picaplot` has a few dependencies and you need to install them manually before you install `picaplot`. Simply run the code below to install the dependencies.
+- **picaplot** has a few dependencies and you need to install them manually before you install **picaplot**. Simply run the code below to install the dependencies.
 
 ```r
 
@@ -22,29 +19,36 @@ install.packages(picaplot_dependencies)
 
 ``` 
 
-- To install `picaplot` from github using `devtools`:
+- `SummarizedExperiment` objects can also be used as direct inputs for `run_ica()`, `run_pca()`, and `covariate_associatio_check()`. To work with `SummarizedExperiment` objects please install the package through bioconductor. 
+
+
+```r
+
+source("http://bioconductor.org/biocLite")
+biocLite("SummarizedExperiments")
+
+```
+
+- To install **picaplot** from github using **devtools**:
 
 ```r
 
 install.packages("devtools")
 library(devtools)
-
 devtools::install_github("jinhyunju/picaplot") #installing picaplot
-
-library(picaplot)
 
 ```
 
-#### 2) Loading an example dataset
+### 2) Loading an example dataset
 
-Here we are going to use a public dataset that is available on the Gene Expression Omnibus (GSE60028). 
-
--Dhingra N, Shemer A, Correa da Rosa J, Rozenblit M et al. Molecular profiling of contact dermatitis skin identifies allergen-dependent differences in immune response. J Allergy Clin Immunol 2014 Aug;134(2):362-72. PMID: 24768652
+Here we are going to use a public dataset that is available on the Gene Expression Omnibus (GSE60028) [@dhingra2014molecular].
 
 You can also start with using your own dataset, it just needs to be a matrix which has the dimension of (gene x samples). A dataframe with covariate information is optional with dimensions (samples x covariates). A subset of the data is included with the package and can be loaded into the environment by simply using the `data()` function. (Note that 10% of the total probes were used to be included in the package to reduce the size)
 
 
 ```r
+library(picaplot)
+
 data(expr_data, sample_info, probe_info)
 
 ```
@@ -67,29 +71,36 @@ source(example.data.script)
 - ```sample_info``` = 5 covariates for each sample 
 
 - ```probe_info``` = positional information for 2642 probes (26391 probes total in `probe_all_info`)
-
+  
 One thing that you have to watch out for is that the rownames of ```sample_info``` have to match the column names of the ```expr_data```. They don't necessarily have to be in the same order but they should have names that overlap. 
 
-### 2. Core Functionality of the package
+## 2. Core Functionality of the package
 
-#### 1) Running PCA / ICA 
+### 1) Running PCA / ICA 
 
-The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively.  
+The functions for running PCA / ICA on an expression matrix are `run_pca()` and `run_ica()` respectively. The core functionality of `run_ica()` is using a slightly modified version of the code adopted from the R package **fastICA** [@fastICA2013].
 
-```r 
-# run PCA 
-pca_object <- run_pca(expr_data)
+```r
 
-# run ICA
-ica_object <- run_ica(expr_data)
+set.seed(1987)
 
 ```
 
-This generates a PCAobject / ICAobject with the outputs saved in the format of a list.
+
+```r
+# run PCA 
+pca_result <- run_pca(expr_data)
+
+# run ICA
+ica_result <- run_ica(expr_data)
+
+```
+
+This generates a list containing information regarding the PCA / ICA outputs.
 
 #### 1-1) `run_pca()` outputs
 
-The following entries will be generated in the output list `pca_object` after running the example above. 
+The following entries will be generated in the output list `pca_result` after running the example above. 
 
   * `rotation` : Matrix of principal component gene weights where each column represents a single component. (standard `prcomp()` output)
   
@@ -109,7 +120,7 @@ The following entries will be generated in the output list `pca_object` after ru
 
 #### 1-2) `run_ica()` outputs
 
-The following entries will be generated in the output list `ica_object` after running the example above. 
+The following entries will be generated in the output list `ica_result` after running the example above. 
 
   * `A` : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard `fastICA()` output)
   
@@ -125,16 +136,16 @@ The following entries will be generated in the output list `ica_object` after ru
   
   * Three attributes are set within the list object. "ICAobject" for `class`, "ica" for `method` and "no" for `covar_cor`.
 
-#### 2) Testing Associations Between Covariates and Components
+### 2) Testing Associations Between Covariates and Components
 
 As an optional step, you can check whether any covariates are associated with any of the components with the function `covar_association_check()` that can be applied to both PCA and ICAobjects. In this example, we are going to test the associations between the covariats in `sample_info` and each PC and IC. 
 
-```r 
+```r
 
-pca_object <- covar_association_check(pca_object, 
+pca_result <- covar_association_check(pca_result, 
                                       covars = sample_info)
 
-ica_object <- covar_association_check(ica_object, 
+ica_result <- covar_association_check(ica_result, 
                                       covars = sample_info)
 
 ```
@@ -150,29 +161,29 @@ This will add the following entries to the list.
   * `covar_threshold` : The threshold for calling a covariate association significant. The default is set to 0.05 divided by the number of tests (= `length(covar_pvals)`).
 
 
-#### 3) Applying unsupervised clustering to IC coefficients / PC projections
+### 3) Applying unsupervised clustering to IC coefficients / PC projections
 
-To identify any sample clusters that are not associated with measured covariates, `picaplot` provides an optional unsupervised clustering approach using functionalities from the `mclust` package. If both covariate association testing and clustering information are available, the plotting function will attempt to use the associated covariates first and if they are not available use clustering labels generated by `mclust` for each component. 
+To identify any sample clusters that are not associated with measured covariates, **picaplot** provides an optional unsupervised clustering approach using functionalities from the **mclust** package [@mclust2012]. If both covariate association testing and clustering information are available, the plotting function will attempt to use the associated covariates first and if they are not available use clustering labels generated by **mclust** for each component. 
 
 ```r
 
-ica_object <- detect_clusters(ica_object)
+ica_result <- detect_clusters(ica_result)
 
-pca_object <- detect_clusters(pca_object)
+pca_result <- detect_clusters(pca_result)
 
 ```
 
-#### 4) Plotting Individual Components
+### 4) Plotting Individual Components
 
 Individual components can be inspected by using the `plot_component()` function. This will generate 3 plots showing the gene loading on the component of interest and the component coefficients. You can specify which component to inspect by setting the component index in the option `comp_idx`.
 
 ```r
 
-pca1_plot = plot_component(pca_object, 
-                           comp_idx = 1)
+pc1_plot = plot_component(pca_result, 
+                          comp_idx = 1)
 
-ica1_plot = plot_component(ica_object,
-                           comp_idx = 1)
+ic1_plot = plot_component(ica_result,
+                          comp_idx = 1)
 
 ```
 
@@ -185,38 +196,43 @@ If you have information regarding the chromosome and position of each gene you c
 
 ```r
 
-pca1_color = plot_component(pca_object, 
-                            comp_idx = 1, 
-                            geneinfo_df = probe_info)
+pc1_color = plot_component(pca_result, 
+                           comp_idx = 1, 
+                           geneinfo_df = probe_info)
 
-ica1_color = plot_component(ica_object, 
-                            comp_idx = 1, 
-                            geneinfo_df = probe_info)
+ic1_color = plot_component(ica_result, 
+                           comp_idx = 1, 
+                           geneinfo_df = probe_info)
 
 ```
 
-#### 5) Generate a Report for All Components
+### 5) Generate a Report for All Components
+
+#### Important Note
+
+The report generating feature of this package requires **pandoc** version 1.12.3 or higher to be installed. This is not a problem when you are using the most recent version of Rstudio (1.0.136 at the moment - 16 January 2017), since it comes with the required **pandoc** functionality. However, if you are running **pandoc** from good-old-fashioned-R (whether you are running it on a cluster or on your local machine) you might run into an error message that pandoc is not installed. In such a case, please review the following link to install the correct version of pandoc on your machine. (https://github.com/rstudio/rmarkdown/blob/master/PANDOC.md)
 
 To create an HTML report showing all components with more detail use the `reportgen()` function. You can control the number of components to be plotted by setting `n_comps`, if `n_comps` is not specified it will plot every component. The default order is set by the amount of variance each component explains. If option `output_path` is not set, it will generate the report and plots in the current working directory.
 
 ```r
 
-reportgen(pca_object,  prefix = "PCAreport", geneinfo_df = probe_info)
+reportgen(pca_result,  prefix = "PCAreport", geneinfo_df = probe_info)
 
-reportgen(ica_object,  prefix = "ICAreport", geneinfo_df = probe_info)
+reportgen(ica_result,  prefix = "ICAreport", geneinfo_df = probe_info)
 
 
 ```
 
-#### 6) Generate a Covariate Matrix for a Linear Model
+### 6) Generate a Covariate Matrix for a Linear Model
 
 After testing for covariate associations and clustering the user can generate a covariate matrix of IC coefficients or PC projections using the `get_covariate_mx` function. By default it will return a matrix that contains IC coefficients or PC projections of components associated with known covariates or those with multiple clusters detected. The user can specify the index of the components to customize the matrix in the option `idx`.
 
 
 ```r
 
-ic_covar_mx = get_covariate_mx(ica_object)
+ic_covar_mx = get_covariate_mx(ica_result)
 
-pc_covar_mx = get_covariate_mx(pca_object)
+pc_covar_mx = get_covariate_mx(pca_result)
 
 ```
+
