@@ -11,14 +11,14 @@
 #
 # @examples
 # raw.data <- rbind(rnorm(100,2,3),rnorm(100,10,2))
-# centered <- pre_process_data(raw.data, scale_pheno = FALSE)
+# centered <- preProcessData(raw.data, scale_pheno = FALSE)
 # apply(centered, 1, mean)
 # apply(centered, 1, sd)
-# centered.scaled <- pre_process_data(raw.data, scale_pheno = TRUE)
+# centered.scaled <- preProcessData(raw.data, scale_pheno = TRUE)
 # apply(centered.scaled, 1, mean)
 # apply(centered.scaled, 1, sd)
 # @export
-pre_process_data <- function(input_matrix, scale_pheno){
+preProcessData <- function(input_matrix, scale_pheno){
     var.vec <- apply(input_matrix, 1, stats::var)
     var0.count <- sum(var.vec == 0)
 

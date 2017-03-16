@@ -2,7 +2,7 @@
 #'
 #' Generating a HTML report from a ICA or PCA list object.
 #'
-#' @param input_list ICA or PCA result list created by either \code{run_ica()} or \code{run_pca()}.
+#' @param input_list ICA or PCA result list created by either \code{runICA()} or \code{runPCA()}.
 #' @param n_comps Number of components to plot.
 #'        Default is set to plot every component.
 #' @param prefix Output filename prefix. The output file will be named
@@ -26,11 +26,11 @@
 #'
 #' data(expr_data)
 #'
-#' ica_object <- run_ica(expr_data)
-#' ica_object <- covar_association_check(ica_object, sample_info)
-#' ica_object <- detect_clusters(ica_object)
+#' ica_result <- runICA(expr_data)
+#' ica_result <- covarAssociationCheck(ica_result, sample_info)
+#' ica_result <- detectClusters(ica_result)
 #'
-#' reportgen(ica_object, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
+#' reportgen(ica_result, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
 #'
 #'
 #'

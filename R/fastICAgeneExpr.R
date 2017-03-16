@@ -15,7 +15,7 @@
 # @export
 #' @import MASS
 #' @import stats
-fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
+fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
                             scale_pheno = FALSE, maxit = 200, tol = 1e-04,
                             verbose = TRUE, w.init=NULL) {
     dd <- dim(X)       # dimensions g x N
@@ -56,7 +56,7 @@ fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
     X1 <- t(X1)
     X <- t(X)
     ### part where ICA is done
-    a <- ica_R_par(X1, n.comp, tol = tol, fun = fun, alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
+    a <- icaRpar(X1, n.comp, tol = tol, fun = fun, alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
 
     # reconstructing data before output
     w <- a %*% t(K)    # k x k %*% k x N = k x N
@@ -87,7 +87,7 @@ fastICA_gene_expr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 # @export
 #' @import MASS
 #' @import stats
-ica_R_par <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
+icaRpar <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
     Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
     n <- nrow(X)
     p <- ncol(X)

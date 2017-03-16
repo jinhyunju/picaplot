@@ -8,7 +8,7 @@
 #' @param assay_idx The assay index to be used to retrieved a single assay from the SummarizedExperiment object.
 #' @param scale_pheno Logical value specifying the scaling of row of the pheno_mx. Default is set to FALSE.
 #' @return
-#' The following entries will be generated in the output list \code{pca_object} after running the example above. \cr
+#' The following entries will be generated in the output list \code{pca_result} after running the example above. \cr
 #' \code{rotation} : Matrix of principal component gene weights where each column represents a single component. (standard \code{prcomp()} output)\cr
 #' \code{x} : Matrix of the projections of the original data onto principal componets. Each column holds a projection. (standard \code{prcomp()} output)\cr
 #' \code{sdev}: The standard deviation (square root of the eigen values) of each principal components. (standard \code{prcomp()} output)\cr
@@ -23,11 +23,11 @@
 #'
 #' data(expr_data)
 #'
-#' pca_object <- run_pca(expr_data)
+#' pca_result <- runPCA(expr_data)
 #'
 #' @export
 #'
-run_pca <- function(pheno_mx = NULL,
+runPCA <- function(pheno_mx = NULL,
                     se_obj = NULL,
                     assay_idx = NULL,
                     scale_pheno = FALSE){
@@ -68,7 +68,7 @@ run_pca <- function(pheno_mx = NULL,
 
     message("Pre Processing Data \n")
     # removing NA values, centering, scaling (optional)
-    pheno_mx <- pre_process_data(pheno_mx, scale_pheno = scale_pheno)
+    pheno_mx <- preProcessData(pheno_mx, scale_pheno = scale_pheno)
 
     message("Running PCA \n")
     pca_result <- stats::prcomp(t(pheno_mx))
@@ -77,7 +77,7 @@ run_pca <- function(pheno_mx = NULL,
     pca_result$percent_var <- (pca_result$sdev^2 / sum(pca_result$sdev^2)) * 100
 
 
-    pca_result$peaks <- apply(pca_result$rotation, 2, peak_detection)
+    pca_result$peaks <- apply(pca_result$rotation, 2, peakDetection)
 
     # label result as pca for report2me() function
     class(pca_result) <- "PCAobject"

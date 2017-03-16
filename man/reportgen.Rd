@@ -8,7 +8,7 @@ reportgen(input_list = NULL, n_comps = NULL, prefix = NULL,
   geneinfo_df = NULL, output_path = NULL, file.ext = "png")
 }
 \arguments{
-\item{input_list}{ICA or PCA result list created by either \code{run_ica()} or \code{run_pca()}.}
+\item{input_list}{ICA or PCA result list created by either \code{runICA()} or \code{runPCA()}.}
 
 \item{n_comps}{Number of components to plot.
 Default is set to plot every component.}
@@ -37,11 +37,11 @@ Generating a HTML report from a ICA or PCA list object.
 
 data(expr_data)
 
-ica_object <- run_ica(expr_data)
-ica_object <- covar_association_check(ica_object, sample_info)
-ica_object <- detect_clusters(ica_object)
+ica_result <- runICA(expr_data)
+ica_result <- covarAssociationCheck(ica_result, sample_info)
+ica_result <- detectClusters(ica_result)
 
-reportgen(ica_object, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
+reportgen(ica_result, geneinfo_df = probe_info, output_path = "./", prefix ="example_report")
 
 
 

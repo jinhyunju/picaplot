@@ -23,7 +23,7 @@ cat("Dataset = ", prefix,"\n")
 
 # need to work on summary 
 
-summary_plots = plot_summary(input_list)
+summary_plots = plotSummary(input_list)
 
 ```
 
@@ -51,7 +51,7 @@ if(length(n_comps) == 1){
     }
     cat("------------------------------------------------------------------------------","\n")
     
-    single_plot = plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
+    single_plot = plotComponent(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
     
 
     
@@ -79,7 +79,7 @@ if(length(n_comps) == 1){
         
         cat("------------------------------------------------------------------------------","\n")
         
-        single_plot = plot_component(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
+        single_plot = plotComponent(input_list, comp_idx = p, geneinfo_df = geneinfo_df)
         
         i <- i + 1
 
