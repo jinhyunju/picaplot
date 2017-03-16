@@ -30,11 +30,11 @@
 #'
 #' data(expr_data)
 #'
-#' ica_object <- run_ica(expr_data)
+#' ica_result <- runICA(expr_data)
 #'
 #'
 #' @export
-run_ica <- function(pheno_mx = NULL,
+runICA <- function(pheno_mx = NULL,
                     se_obj = NULL,
                     assay_idx = NULL,
                     k_est = NULL,
@@ -98,7 +98,7 @@ run_ica <- function(pheno_mx = NULL,
 
     message("------ Pre-processing Data ------- \n")
     # removing 0 variance genes and scaling and centering the phenotype matirx
-    pheno_mx <- pre_process_data(pheno_mx, scale_pheno = scale_pheno)
+    pheno_mx <- preProcessData(pheno_mx, scale_pheno = scale_pheno)
 
     if(is.null(k_est)){
         message("Missing input for <k_est>, using the number of principal
@@ -133,7 +133,7 @@ run_ica <- function(pheno_mx = NULL,
 
         ica_list <- parallel::mclapply(1:n_runs,
                                        function(x)
-                                           fastICA_gene_expr(pheno_mx, k_est,
+                                           fastICAgeneExpr(pheno_mx, k_est,
                                                              fun = "logcosh",
                                                              alpha = 1,
                                                              scale_pheno = FALSE,
@@ -242,7 +242,7 @@ run_ica <- function(pheno_mx = NULL,
         message("<n_runs> set to ", n_runs, " / initiating single ICA run \n")
         message("- Estimated components = ", k_est, "\n")
 
-        ica_result <- fastICA_gene_expr(pheno_mx, k_est,
+        ica_result <- fastICAgeneExpr(pheno_mx, k_est,
                                         fun = "logcosh",
                                         alpha = 1, scale_pheno = FALSE,
                                         maxit=500, tol = 0.0001, verbose = FALSE)
@@ -263,7 +263,7 @@ run_ica <- function(pheno_mx = NULL,
     message("- Labeling peak genes in each IC \n")
     # peaks are defined as gene contributions that are larger than 2 standard deviations
 
-    ica_result$peaks <- apply(ica_result$S, 2, peak_detection)
+    ica_result$peaks <- apply(ica_result$S, 2, peakDetection)
 
     message("- Calculating variance explained by each IC \n")
     # get the total variance by the sums of squares of the scaled pheno_mx
@@ -271,7 +271,7 @@ run_ica <- function(pheno_mx = NULL,
 
     # applying IC component-wise variance calculations
     var_IC <- sapply(1:dim(ica_result$A)[1],
-                     function (x) IC_variance_calc(ica_result$S[,x],
+                     function (x) ICvarianceCalc(ica_result$S[,x],
                                                    ica_result$A[x,]))
 
     # % variance explained by each IC
@@ -307,7 +307,7 @@ run_ica <- function(pheno_mx = NULL,
 # @return A vector that contains the gene weights of the signficant peaks for a single independent component sorted
 # in the decreasing order of absolute magnitude.
 #
-peak_detection <- function(ica.input.s){
+peakDetection <- function(ica.input.s){
     peaks.idx <- which(abs(ica.input.s) > (2 * stats::sd(ica.input.s)))
     # get the peak indexes
     peaks <- ica.input.s[names(sort(abs(ica.input.s[peaks.idx]),
@@ -325,7 +325,7 @@ peak_detection <- function(ica.input.s){
 # @param a A single row of the A matrix with dimensions N x 1 \code{a}
 # @return A single number of how much variantion is explained by a single IC.
 #
-IC_variance_calc <- function(s, a){
+ICvarianceCalc <- function(s, a){
     var.IC <- sum(  (as.matrix(s) %*% t(as.matrix(a) ) )^2)
     return(var.IC)
 }
