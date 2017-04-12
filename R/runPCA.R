@@ -33,7 +33,7 @@ runPCA <- function(pheno_mx = NULL,
                     scale_pheno = FALSE){
 
     if(is.null(pheno_mx) & is.null(se_obj)){
-        stop("Error: Phenotype matrix is missing \n")
+        stop("Phenotype matrix is missing \n")
     } else if (!is.null(se_obj) & is.null(pheno_mx)){
 
         if(!is.null(assay_idx)){
@@ -57,11 +57,11 @@ runPCA <- function(pheno_mx = NULL,
             pheno_nrow , " x ", pheno_ncol, "\n")
 
     if (pheno_nrow < pheno_ncol){
-        message("[Caution] Number of samples exceeding number of measured
-                features, please check rows and columns of <pheno_mx> \n")
-        message("* If you are from the future and have more samples than
+        warning("Number of samples exceeding number of measured
+                features, please check rows and columns of <pheno_mx>")
+        warning("* If you are from the future and have more samples than
                 measured features, disregard the above message and please
-                proceed. \n")
+                proceed.")
     }
 
 

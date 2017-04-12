@@ -1,7 +1,7 @@
 Package: picaplot
 Type: Package
 Title: An R package for analyzing gene expression data with Principal / Independent Component Analysis
-Version: 0.99.5
+Version: 0.99.6
 Date: 2017-01-18
 Author: Jin Hyun Ju
 Maintainer: Jin Hyun Ju <jinhyun.ju@gmail.com>
@@ -16,8 +16,7 @@ Imports:
     ggplot2,
     knitr,
     mclust,
-    rmarkdown
-Suggests:
+    rmarkdown,
     SummarizedExperiment
 VignetteBuilder: knitr
 biocViews: GeneExpression, PrincipalComponent, Visualization, Clustering

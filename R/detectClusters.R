@@ -36,7 +36,7 @@ detectClusters <- function(input_list = NULL){
     options(warn=0)
 
 
-    input_list$n_clust <- sapply(mclust_result, function(x) x$G)
+    input_list$n_clust <- unlist(lapply(mclust_result, function(x) x$G))
     input_list$mclust_result <- mclust_result
 
     attr(input_list, 'clustering') <- "yes"

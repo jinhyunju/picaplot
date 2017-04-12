@@ -56,20 +56,16 @@ covarAssociationCheck <- function(input_list = NULL,
 
     message("Checking dimensions and column/row names \n")
 
-    if (nrow(covars) == ncol(comp_coeff_mx)) {
-        message("[Good] Number of samples in <covars> and <input_list> match")
-    } else {
+    if (!(nrow(covars) == ncol(comp_coeff_mx))) {
         stop("[Error] Different number of samples in <covars> and <input_list>")
     }
 
     matching.names <-
         sum(rownames(covars) %in% colnames(comp_coeff_mx))
 
-    if (matching.names == nrow(covars)) {
-        message("[Good] All samples between <input_list> and <covars> match")
-    } else {
+    if (!(matching.names == nrow(covars))) {
         stop(
-            "[Error] Sample names do not match between <input_list> and <covars>"
+            "Sample names do not match between <input_list> and <covars>"
         )
     }
 
@@ -93,16 +89,16 @@ covarAssociationCheck <- function(input_list = NULL,
         ICcovarAssociationCheck(comp_coeff_mx, covars)
 
     if (class(input_list) == "ICAobject") {
-        rownames(covar_pvals) <- paste0("IC", 1:nrow(covar_pvals))
+        rownames(covar_pvals) <- paste0("IC", seq_len(nrow(covar_pvals)))
     } else if (class(input_list) == "PCAobject") {
-        rownames(covar_pvals) <- paste0("PC", 1:nrow(covar_pvals))
+        rownames(covar_pvals) <- paste0("PC", seq_len(nrow(covar_pvals)))
     }
 
     bon_sig <-
         cor_threshold / (nrow(covar_pvals) * ncol(covar_pvals))
     comp_cov <- list()
 
-    for (i in 1:nrow(covar_pvals)) {
+    for (i in seq_len(nrow(covar_pvals))) {
         comp_name <- rownames(covar_pvals)[i]
         comp_cov[[comp_name]] <-
             covar_pvals[i, covar_pvals[i, ] < bon_sig, drop = FALSE]
@@ -129,7 +125,7 @@ ICcovarAssociationCheck <- function(input.A, info.input) {
     covar.df <-
         data.frame(info.input[colnames(input.A), covar.names])
 
-    for (i in 1:dim(input.A)[1]) {
+    for (i in seq_len(dim(input.A)[1])) {
         for (j in 1:length(covar.names)) {
             analysis.df <- data.frame("IC" = input.A[i, ],
                                       "Covar" = covar.df[, j])

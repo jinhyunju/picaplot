@@ -44,10 +44,11 @@ runICA <- function(pheno_mx = NULL,
                     scale_pheno = FALSE,
                     h_clust_cutoff = 0.3,
                     max_iter = 10,
+                    random_seed = NULL,
                     similarity_measure = "peaks"){
 
     if(is.null(pheno_mx) & is.null(se_obj)){
-        stop("Error: Phenotype matrix is missing \n")
+        stop("Phenotype matrix is missing \n")
     } else if (!is.null(se_obj) & is.null(pheno_mx)){
 
         if(!is.null(assay_idx)){
@@ -72,22 +73,22 @@ runICA <- function(pheno_mx = NULL,
             pheno_nrow , " x ", pheno_ncol, "\n")
 
     if (pheno_nrow < pheno_ncol){
-        message("[Caution] Number of samples exceeding number of measured
-                features, please check rows and columns of <pheno_mx> \n")
-        message("* If you are from the future and have more samples than
+        warning("[Caution] Number of samples exceeding number of measured
+                features, please check rows and columns of <pheno_mx>")
+        warning("* If you are from the future and have more samples than
                 measured features, disregard the above message and please
-                proceed. \n")
+                proceed.")
     }
 
 
     if(is.null(colnames(pheno_mx))){
         message("<pheno_mx> is missing column names, setting to default (sample#). \n")
-        colnames(pheno_mx) <- paste("sample",c(1:pheno_ncol), sep = "_")
+        colnames(pheno_mx) <- paste("sample",c(seq_len(pheno_ncol)), sep = "_")
     }
 
     if(is.null(rownames(pheno_mx))){
         message("<pheno_mx> is missing row names, set to default. \n")
-        rownames(pheno_mx) <- paste("feature",c(1:pheno_nrow), sep = "_")
+        rownames(pheno_mx) <- paste("feature",c(seq_len(pheno_nrow)), sep = "_")
     }
 
     if(is.null(n_cores)){
@@ -131,18 +132,19 @@ runICA <- function(pheno_mx = NULL,
                 " replicates using ", n_cores, " core(s) \n")
         message("- Estimated components = ", k_est, "\n")
 
-        ica_list <- parallel::mclapply(1:n_runs,
+        ica_list <- parallel::mclapply(seq_len(n_runs),
                                        function(x)
                                            fastICAgeneExpr(pheno_mx, k_est,
-                                                             fun = "logcosh",
+                                                             approx_fun = "logcosh",
                                                              alpha = 1,
                                                              scale_pheno = FALSE,
                                                              maxit = 500,
                                                              tol = 0.0001,
-                                                             verbose = FALSE),
+                                                             verbose = FALSE,
+                                                             random_seed = random_seed),
                                        mc.cores = n_cores)
 
-        for(i in 1:length(ica_list)){
+        for(i in seq_len(length(ica_list))){
 
             ica_list[[i]]$peak_mx <- apply(ica_list[[i]]$S,
                                            2,
@@ -206,7 +208,7 @@ runICA <- function(pheno_mx = NULL,
         Avg_S <- matrix(0,nrow = dim(combined_S)[1],ncol = k_update)
 
         # for each group calculate the average component
-        for(i in 1:length(multi_component_group)){
+        for(i in seq_len(length(multi_component_group))){
 
             # get component indexes for groups with multiple components
             group_members <- which(groups %in% multi_component_group[i])
@@ -243,17 +245,19 @@ runICA <- function(pheno_mx = NULL,
         message("- Estimated components = ", k_est, "\n")
 
         ica_result <- fastICAgeneExpr(pheno_mx, k_est,
-                                        fun = "logcosh",
+                                        approx_fun = "logcosh",
                                         alpha = 1, scale_pheno = FALSE,
-                                        maxit=500, tol = 0.0001, verbose = FALSE)
+                                        maxit=500, tol = 0.0001,
+                                        random_seed = random_seed,
+                                        verbose = FALSE)
         k_update <- k_est
     }
 
     # Setting appropriate names for signals and mixing matrix
     rownames(ica_result$S) <- rownames(pheno_mx)
-    colnames(ica_result$S) <- paste("IC",c(1:dim(ica_result$S)[2]),sep="")
+    colnames(ica_result$S) <- paste("IC",c(seq_len(dim(ica_result$S)[2])),sep="")
     colnames(ica_result$A) <- colnames(pheno_mx)
-    rownames(ica_result$A) <- paste("IC",c(1:dim(ica_result$A)[1]),sep="")
+    rownames(ica_result$A) <- paste("IC",c(seq_len(dim(ica_result$A)[1])),sep="")
 
     # Attaching the sample info dataframe to the ica list
 
@@ -270,9 +274,10 @@ runICA <- function(pheno_mx = NULL,
     total_var <- sum(pheno_mx^2)
 
     # applying IC component-wise variance calculations
-    var_IC <- sapply(1:dim(ica_result$A)[1],
+    var_IC <- vapply(seq_len(dim(ica_result$A)[1]),
                      function (x) ICvarianceCalc(ica_result$S[,x],
-                                                   ica_result$A[x,]))
+                                                   ica_result$A[x,]),
+                     FUN.VALUE = double(length = 1))
 
     # % variance explained by each IC
     percent_var <- (var_IC / total_var) * 100

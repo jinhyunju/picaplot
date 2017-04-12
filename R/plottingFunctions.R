@@ -16,10 +16,7 @@ plotCompChr <- function(input_list = NULL,
         colnames(input_list$comp_cov[[comp_idx]])[which.min(input_list$comp_cov[[comp_idx]])]
 
     if (class(input_list) == "ICAobject") {
-        geneinfo_df$loading <- NULL
-        geneinfo_df$peaks <- NULL
-
-        geneinfo_df$idx <- 1:nrow(geneinfo_df)
+        geneinfo_df$idx <- seq_len(nrow(geneinfo_df))
         geneinfo_df$loading <-
             input_list$S[as.character(geneinfo_df$phenotype), comp_idx]
         geneinfo_df$peaks <-
@@ -48,7 +45,7 @@ plotCompChr <- function(input_list = NULL,
 
 
     } else if (class(input_list) == "PCAobject") {
-        geneinfo_df$idx <- 1:nrow(geneinfo_df)
+        geneinfo_df$idx <- seq_len(nrow(geneinfo_df))
         geneinfo_df$loading <-
             input_list$rotation[as.character(geneinfo_df$phenotype), comp_idx]
         geneinfo_df$peaks <-
@@ -130,7 +127,7 @@ plotCompNoGeneinfo <- function(input_list = NULL,
 
     if (class(input_list) == "ICAobject") {
         comp_df <- data.frame(
-            "idx" = 1:nrow(input_list$S),
+            "idx" = seq_len(nrow(input_list$S)),
             "loading" = input_list$S[, comp_idx],
             "peaks" = 1 * (
                 as.character(rownames(input_list$S)) %in% names(input_list$peaks[[comp_idx]])
@@ -162,7 +159,7 @@ plotCompNoGeneinfo <- function(input_list = NULL,
 
     } else if (class(input_list) == "PCAobject") {
         comp_df <- data.frame(
-            "idx" = 1:nrow(input_list$rotation),
+            "idx" = seq_len(nrow(input_list$rotation)),
             "loading" = input_list$rotation[, comp_idx],
             "peaks" = 1 * (
                 as.character(rownames(input_list$rotation)) %in% names(input_list$peaks[[comp_idx]])
@@ -213,12 +210,12 @@ compCoeffDF <- function(input_list = NULL,
                           comp_idx) {
     if (class(input_list) == "ICAobject") {
         comp_df <- data.frame("coeff" = input_list$A[comp_idx, ],
-                              "sample_idx" = 1:ncol(input_list$A))
+                              "sample_idx" = seq_len(ncol(input_list$A)))
 
 
     } else if (class(input_list) == "PCAobject") {
         comp_df <- data.frame("coeff" = input_list$x[, comp_idx],
-                              "sample_idx" = 1:nrow(input_list$x))
+                              "sample_idx" = seq_len(nrow(input_list$x)))
 
     }
 
@@ -244,10 +241,9 @@ compCoeffDF <- function(input_list = NULL,
 }
 
 chrAxisCreator <- function(geneinfo.df) {
-    pheno_chr <- NULL # to get rid of R CMD check NOTES
     chromosomes <- unique(geneinfo.df$pheno_chr)
     x.axis <- matrix(0, nrow = 3, ncol = length(chromosomes))
-    geneinfo.df$idx <- 1:nrow(geneinfo.df)
+    geneinfo.df$idx <- seq_len(nrow(geneinfo.df))
     for (k in 1:length(chromosomes)) {
         j <- as.character(chromosomes[k])
 
@@ -255,9 +251,9 @@ chrAxisCreator <- function(geneinfo.df) {
             x.axis[1, k] <- max(x.axis[1, ]) + 1
             x.axis[2, k] <- max(geneinfo.df[, "idx"])
         } else {
-            x.axis[1, k] <- min(subset(geneinfo.df, pheno_chr == j)[, "idx"])
+            x.axis[1, k] <- min(geneinfo.df[which(geneinfo.df[,"pheno_chr"] == j), "idx"])
             x.axis[2, k] <-
-                max(subset(geneinfo.df, pheno_chr == j)[, "idx"])
+                max(geneinfo.df[which(geneinfo.df[,"pheno_chr"] == j), "idx"])
         }
 
     }
@@ -441,7 +437,7 @@ plotSummary <- function(input_list = NULL,
     summary_df <-
         data.frame(
             "var_percent" = input_list$percent_var[var_order],
-            "idx" = 1:length(input_list$percent_var),
+            "idx" = seq_len(length(input_list$percent_var)),
             "comp_num" = var_order
         )
     summary_plots <- list()

@@ -37,7 +37,7 @@ getGeneInfo <-
             stop("Please specify the gene information data.frame")
         }
 
-        top_peaks <- input_list$peaks[[comp_idx]][1:n_peaks]
+        top_peaks <- input_list$peaks[[comp_idx]][seq_len(n_peaks)]
 
         gene_subset <- geneinfo_df[match(names(top_peaks),
                                          geneinfo_df$phenotype), ]

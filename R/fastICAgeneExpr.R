@@ -4,7 +4,7 @@
 #
 # @param X Phenotype matrix with diemnsions g x N
 # @param n.comp Number of components to be estimated or method to estimate it.
-# @param fun Function to be used in ICA estimation
+# @param approx_fun Function to be used in ICA estimation
 # @param alpha alpha for ICA, should be in range [1,2].
 # @param scale_pheno Logical value specifying the scaling of rows of X.
 # @param maxit Maximum iterations
@@ -15,9 +15,12 @@
 # @export
 #' @import MASS
 #' @import stats
-fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
+fastICAgeneExpr <-function(X, n.comp, approx_fun = "logcosh", alpha = 1,
                             scale_pheno = FALSE, maxit = 200, tol = 1e-04,
-                            verbose = TRUE, w.init=NULL) {
+                            verbose = TRUE, w.init=NULL, random_seed = NULL) {
+    if(!is.null(random_seed)){
+        set.seed(random_seed)
+    }
     dd <- dim(X)       # dimensions g x N
     d <- dd[dd != 1L]
     if (length(d) != 2L)
@@ -29,7 +32,7 @@ fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
         stop("alpha must be in range [1,2]")
     #    method <- match.arg(method)
     #    alg.typ <- match.arg(alg.typ)
-    #    fun <- match.arg(fun)
+    #    approx_fun <- match.arg(approx_fun)
     n <- nrow(X)         # g
     p <- ncol(X)         # N
 
@@ -46,8 +49,8 @@ fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 
     pca.X <- stats::prcomp(X)         # X is still g x N
 
-    K.comp <- pca.X$rotation[,c(1:n.comp)]        # k principal components
-    Diag <- diag(c(1/pca.X$sdev[c(1:n.comp)]))    # k standard deviation diagonal matrix
+    K.comp <- pca.X$rotation[,c(seq_len(n.comp))]        # k principal components
+    Diag <- diag(c(1/pca.X$sdev[c(seq_len(n.comp))]))    # k standard deviation diagonal matrix
 
     K <- K.comp %*% Diag
 
@@ -56,7 +59,7 @@ fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
     X1 <- t(X1)
     X <- t(X)
     ### part where ICA is done
-    a <- icaRpar(X1, n.comp, tol = tol, fun = fun, alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
+    a <- icaRpar(X1, n.comp, tol = tol, approx_fun = approx_fun, alpha = alpha, maxit = maxit, verbose = verbose, w.init = w.init)
 
     # reconstructing data before output
     w <- a %*% t(K)    # k x k %*% k x N = k x N
@@ -77,7 +80,7 @@ fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 #
 # @param X Phenotype matrix with diemnsions g x N
 # @param n.comp Number of components to be estimated or method to estimate it.
-# @param fun Function to be used in ICA estimation
+# @param approx_fun Function to be used in ICA estimation
 # @param alpha alpha for ICA, should be in range [1,2].
 # @param maxit Maximum iterations
 # @param tol Threshold for convergence
@@ -87,7 +90,7 @@ fastICAgeneExpr <-function(X, n.comp, fun = "logcosh", alpha = 1,
 # @export
 #' @import MASS
 #' @import stats
-icaRpar <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
+icaRpar <- function (X, n.comp, tol, approx_fun, alpha, maxit, verbose, w.init) {
     Diag <- function(d) if(length(d) > 1L) diag(d) else as.matrix(d)
     n <- nrow(X)
     p <- ncol(X)
@@ -97,7 +100,7 @@ icaRpar <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
     W1 <- W
     lim <- rep(1000, maxit)
     it <- 1
-    if (fun == "logcosh") {
+    if (approx_fun == "logcosh") {
         if (verbose)
             message("Running FastICA ( logcosh approx. ) \n")
         while (lim[it] > tol && it < maxit) {
@@ -116,7 +119,7 @@ icaRpar <- function (X, n.comp, tol, fun, alpha, maxit, verbose, w.init) {
             it <- it + 1
         }
     }
-    if (fun == "exp") {
+    if (approx_fun == "exp") {
         if (verbose)
             message("Symmetric FastICA using exponential approx. to neg-entropy function \n")
         while (lim[it] > tol && it < maxit) {
