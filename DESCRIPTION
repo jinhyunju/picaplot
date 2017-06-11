@@ -1,8 +1,8 @@
 Package: picaplot
 Type: Package
 Title: An R package for analyzing gene expression data with Principal / Independent Component Analysis
-Version: 0.99.6
-Date: 2017-01-18
+Version: 0.99.7
+Date: 2017-06-11
 Author: Jin Hyun Ju
 Maintainer: Jin Hyun Ju <jinhyun.ju@gmail.com>
 Description: The functionalities included in the picaplot package provides the user with a simple workflow for the application of ICA and/or PCA to gene expression data, and for the analysis of the results. Key features of picaplot includes the visualization of individual components, comprehensive HTML report generation, association testing between components with measured variables, and unsupervised clustering of component coefficients. 

@@ -17,6 +17,7 @@
 #' @param max_iter Maximum iterations for estimating k for each run. Default value is set to 10.
 #' @param similarity_measure How to measure the similarity between ICs.
 #' If set to "peaks" only gene weights that are greater than 1 sd are used to calculate similarity.
+#' @param random_seed Set a specific value for random seed to reproduce the results of ICA.
 #' @return The following entries will be generated in the output list \code{ica_object} after running the example above. \cr
 #' \code{A} : The IC coefficient matrix, with each row representing coefficients for the corresponding independent component. (standard \code{fastICA()} output) \cr
 #' \code{S} : Matrix of gene weights for each independent component. Each column holds a single component. (standard \code{fastICA()} output)\cr

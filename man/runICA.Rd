@@ -6,7 +6,8 @@
 \usage{
 runICA(pheno_mx = NULL, se_obj = NULL, assay_idx = NULL, k_est = NULL,
   var_cutoff = 99, n_runs = 1, n_cores = NULL, scale_pheno = FALSE,
-  h_clust_cutoff = 0.3, max_iter = 10, similarity_measure = "peaks")
+  h_clust_cutoff = 0.3, max_iter = 10, random_seed = NULL,
+  similarity_measure = "peaks")
 }
 \arguments{
 \item{pheno_mx}{Phenotype matrix with diemnsions g x N, where g is the number of genes and N is the number of samples.}
@@ -31,6 +32,8 @@ This will divide all phenotypes by their standard deviation.}
 \item{h_clust_cutoff}{is the cutoff value used in hierarchical clustering. Default is set to 0.3.}
 
 \item{max_iter}{Maximum iterations for estimating k for each run. Default value is set to 10.}
+
+\item{random_seed}{Set a specific value for random seed to reproduce the results of ICA.}
 
 \item{similarity_measure}{How to measure the similarity between ICs.
 If set to "peaks" only gene weights that are greater than 1 sd are used to calculate similarity.}
