@@ -244,7 +244,7 @@ chrAxisCreator <- function(geneinfo.df) {
     chromosomes <- unique(geneinfo.df$pheno_chr)
     x.axis <- matrix(0, nrow = 3, ncol = length(chromosomes))
     geneinfo.df$idx <- seq_len(nrow(geneinfo.df))
-    for (k in 1:length(chromosomes)) {
+    for (k in seq_len(length(chromosomes))) {
         j <- as.character(chromosomes[k])
 
         if (is.na(j)) {

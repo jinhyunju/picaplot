@@ -126,7 +126,7 @@ ICcovarAssociationCheck <- function(input.A, info.input) {
         data.frame(info.input[colnames(input.A), covar.names])
 
     for (i in seq_len(dim(input.A)[1])) {
-        for (j in 1:length(covar.names)) {
+        for (j in seq_len(length(covar.names))) {
             analysis.df <- data.frame("IC" = input.A[i, ],
                                       "Covar" = covar.df[, j])
             anova.fit <-
