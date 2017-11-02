@@ -3,8 +3,6 @@
 #' Performing ICA on a dataset and create a list object with results.
 #'
 #' @param pheno_mx Phenotype matrix with diemnsions g x N, where g is the number of genes and N is the number of samples.
-#' @param se_obj The input for the function can also be a \code{SummarizedExperiment} or \code{RangedSummarizedExperiment} object created through the
-#'        \code{SummarizedExperiment} package on bioconductor.
 #' @param assay_idx The assay index to be used to retrieved a single assay from the SummarizedExperiment object.
 #' @param k_est Number of components to be estimated or method to estimate it.
 #' @param var_cutoff Percent variance threshold to use when <k_est> is not supplied.
@@ -36,7 +34,6 @@
 #'
 #' @export
 runICA <- function(pheno_mx = NULL,
-                    se_obj = NULL,
                     assay_idx = NULL,
                     k_est = NULL,
                     var_cutoff = 99,
@@ -48,23 +45,8 @@ runICA <- function(pheno_mx = NULL,
                     random_seed = NULL,
                     similarity_measure = "peaks"){
 
-    if(is.null(pheno_mx) & is.null(se_obj)){
+    if(is.null(pheno_mx)){
         stop("Phenotype matrix is missing \n")
-    } else if (!is.null(se_obj) & is.null(pheno_mx)){
-
-        if(!is.null(assay_idx)){
-            pheno_mx <- SummarizedExperiment::assay(se_obj, assay_idx)
-        } else {
-            message("Assay number not specified, using the first entry as default")
-            pheno_mx <- SummarizedExperiment::assay(se_obj, 1)
-        }
-
-    } else if (!is.null(pheno_mx) & is.null(se_obj)){
-        message("Using input pheno_mx for expression values")
-
-    } else {
-        stop("Both pheno_mx and se_obj are defined, please only supply one
-             phenotype matrix as input")
     }
 
     pheno_nrow <- nrow(pheno_mx)

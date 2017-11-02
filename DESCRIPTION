@@ -17,6 +17,4 @@ Imports:
     knitr,
     mclust,
     rmarkdown,
-    SummarizedExperiment
 VignetteBuilder: knitr
-biocViews: GeneExpression, PrincipalComponent, Visualization, Clustering
