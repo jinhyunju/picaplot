@@ -25,16 +25,6 @@ install.packages(picaplot_dependencies)
 
 ``` 
 
-- `SummarizedExperiment` objects can also be used as direct inputs for `runICA()`, `runPCA()`, and `covariate_associatio_check()`. To work with `SummarizedExperiment` objects please install the package through bioconductor. 
-
-
-```r
-
-source("http://bioconductor.org/biocLite")
-biocLite("SummarizedExperiments")
-
-```
-
 - To install **picaplot** from github using **devtools**:
 
 ```r
