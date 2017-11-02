@@ -7,10 +7,7 @@
 #'                   \code{runPCA()}.
 #' @param covars A dataframe of covariates with each row for a sample
 #'               and each column for a covariate.
-#' @param se_obj The covariate input can be directly retrieved from a
-#'        \code{SummarizedExperiment} or \code{RangedSummarizedExperiment} object
-#'        created through the \code{SummarizedExperiment} package on bioconductor.
-#' @param col_names Column names of \code{covars} or \code{colData(se_obj)} to
+#' @param col_names Column names of \code{covars} to
 #'        be used for association testing. Default is to test every input covariate.
 #' @param cor_threshold Bonferroni threshold that is going to be used for
 #'                      identifying significant associations.
@@ -33,20 +30,12 @@
 #' @export
 covarAssociationCheck <- function(input_list = NULL,
                                     covars = NULL,
-                                    se_obj = NULL,
                                     col_names = NULL,
                                     cor_threshold = 0.05) {
     if (is.null(input_list)) {
         stop("Input is missing, please specify an ICA or PCA object")
     }
 
-    if (is.null(covars) & is.null(se_obj)) {
-        stop("Covariate matrix is missing, please specify a covariate matrix")
-    } else if (is.null(covars) & !is.null(se_obj)){
-        message("Retrieving covariate matrix from SummarizedExperiment object")
-        covars <- SummarizedExperiment::colData(se_obj)
-
-    }
 
     if (class(input_list) == "ICAobject") {
         comp_coeff_mx <- input_list$A
